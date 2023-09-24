@@ -124,3 +124,4 @@ createHeaderRow();
 for (let i = 0; i < 20; i++) {
 	createDataRow();
 }
+console.log("Test");
