@@ -1,0 +1,217 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+}
+.mainBG {
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(to top, rgb(131, 133, 247),rgb(131, 247, 131));
+    filter: brightness(0.55);
+}
+.topBarHolder{
+    box-sizing: border-box;
+    display: flex;
+    position: fixed;
+    z-index: 1000;
+    width: 100vw;
+    height: 8vh;
+    background-color: rgb(0, 0, 0);
+    box-shadow: 0px 2px 5px 1px black;
+    flex-direction: row;
+    padding-left: 8vh;
+}
+.TBLeftIcon {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    left: 0;
+    position: absolute;
+    background: linear-gradient(to bottom, rgb(52, 212, 172),rgb(52, 212, 172),rgb(52, 212, 172),rgba(52, 212, 172, 0.75));
+    width: 8vh;
+    height: inherit;
+    background-repeat: none;
+}
+.TBiconImage {
+    cursor: pointer;
+    position: absolute;
+    width: 97%;
+    height: 97%;
+    background-image: url("/assets/imgs/home-button-icon.svg");
+    filter: invert(0%) drop-shadow(2px 2px 3px black);
+    transition: transform 0.4s ease;
+    
+    transform: scale(0.8);
+}
+.TBiconImage:hover {
+    transform: scale(1);
+}
+.TBiconImage:active {
+    
+    transform: scale(0.9);
+}
+.dropDownMenu {
+    user-select: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    position: relative;
+    flex: 1;
+    background: linear-gradient(to bottom, rgb(52, 212, 172),rgb(52, 212, 172),rgb(52, 212, 172),rgba(52, 212, 172, 0.75));
+    height: inherit;
+    border-left: 1px solid black;
+    font-size: 1.25em;
+    color: black;
+    transition: filter 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: double;
+    font-variant: small-caps;
+    text-align: center;
+}
+.dropDownMenu::after {
+    z-index: 10000;
+    position: absolute;
+    left: 85%;
+    width: 1px;
+    height: 92%;
+    bottom: 0;
+    background-color: rgb(0, 0, 0);
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    color: black;
+    content: "";
+}
+.dropMenuIcon {
+    top: 15%;
+    z-index: 10000;
+    position: absolute;
+    left: 87.5%;
+    background-image: url(/Graph/assets/arrow-down-sign-to-navigate.png);
+    height: 100%;
+    width: 15%;
+    background-repeat: no-repeat;
+    background-size: 70%
+}
+.dropDownMenu:hover {
+    filter: brightness(120%);
+}
+.dropDownMenu:active {
+    color: white;
+    filter: sepia(40%);
+}
+.dropDownMenu:active .dropMenuIcon{
+    filter: invert(1);
+}
+.mainGraphContainer {    
+    box-sizing: border-box;
+    position: absolute;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(to bottom, rgb(104, 155, 196),rgb(59, 103, 184),black);
+}
+.graphHolder {
+    box-sizing: border-box;
+    position: absolute;
+    width: 92%;
+    height: 92%;
+    left: 4%;
+    top: 8%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 0px 20px 1px black;
+}
+.innerGraphHolder{
+    position: absolute;
+    display: flex;
+    width: 94%;
+    height: 93.5%;
+    left: 3.25%;
+    bottom: 5.5%;
+    background-color: rgba(137, 43, 226, 0);
+}
+.verticalGraphLine {
+    height: 90%;
+    position: absolute;
+    top: 5%;
+    left: 3%;
+    width: 5px;
+    background-color: black;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 3px;
+}
+.fadeLeft {
+    left: 0;
+    width: 3%;
+    position: absolute;
+    height: 100%;
+    background: linear-gradient(to top,rgb(200,200,200),rgb(200,200,200),rgb(200,200,200),rgb(200,200,200),rgba(255, 255, 255, 0)) ;
+}
+.horizontalGraphLine {
+    height: 5px;
+    position: absolute;
+    bottom: 5%;
+    left: 3%;
+    width: 94%;
+    background-color: black;
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+    border-bottom-left-radius: 0px;
+    
+}
+.fadeBottom {
+    bottom: 0;
+    width: 100%;
+    position: absolute;
+    height: 5%;
+    background: linear-gradient(to right,rgb(200,200,200),rgb(200,200,200),rgb(200,200,200),rgb(200,200,200),rgba(255, 255, 255, 0)) ;
+}
+
+.selectMenu {
+    display: grid;
+    grid-template-rows: repeat(2, 1fr); /* 2 Rows */
+    grid-auto-flow: column; /* Automatically place items in a new column */
+    gap: 1px; /* Space between grid items */
+    position: absolute;    
+    z-index: 20;
+    top: 9%;
+    width: 98%;
+    height: 88%;
+    background: linear-gradient(to bottom,rgb(70, 33, 139),rgb(74, 209, 198));
+    border-radius: 12px;
+    border-top-left-radius: 0%;
+    border-bottom-left-radius: 0%;
+    left: -100%;
+    transition: left 0.5s ease, opacity 0.5s ease;   
+    box-shadow: 0px 0px 25px 3px black;
+    opacity: 0;
+}
+
+.selectMenu:hover {
+    left: 0%;
+}
+
+.selections {
+    cursor: pointer;
+    display: flex;
+    background: linear-gradient(to bottom,rgba(175, 175, 175, 0.75),rgba(175, 175, 175, 0.2));
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    z-index: 100;
+    box-shadow: 0px 2px 15px 2px rgba(0, 0, 0, 0.07);
+}
+.selections:hover {
+    background: rgba(175, 175, 175, 0.85);
+}
+

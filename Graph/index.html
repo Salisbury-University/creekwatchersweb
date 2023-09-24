@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" href="index.css" />
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Dynamic Graph</title>
+		<script src="index.js" defer></script>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+	</head>
+	<body>
+		<div class="selectMenu"></div>
+		<div class="topBarHolder">
+			<div class="TBLeftIcon">
+				<div class="TBiconImage" id="graphhomebtn"></div>
+			</div>
+			<div class="dropDownMenu" id="rainFallMenu">
+				Variable
+				<div class="dropMenuIcon"></div>
+			</div>
+			<div class="dropDownMenu" id="sitesMenu">
+				Site
+				<div class="dropMenuIcon"></div>
+			</div>
+			<div class="dropDownMenu" id="datesMenu">
+				Time Frame
+				<div class="dropMenuIcon"></div>
+			</div>
+			<div class="dropDownMenu" id="valuesMenu">
+				Value
+				<div class="dropMenuIcon"></div>
+			</div>
+		</div>
+		<div class="mainGraphContainer" id="graphholder">
+			<div class="graphHolder">
+				<div class="innerGraphHolder" id="innergraph"></div>
+				<div class="verticalGraphLine"></div>
+				<div class="fadeLeft"></div>
+				<div class="horizontalGraphLine"></div>
+				<div class="fadeBottom"></div>
+			</div>
+		</div>
+	</body>
+</html>

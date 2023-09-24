@@ -225,5 +225,4 @@ transform: scale(1.2);
 }
 .homeBtn:active{
     transform: scale(1.2) translateY(4px);
-
     }

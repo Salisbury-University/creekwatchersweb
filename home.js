@@ -1,8 +1,6 @@
 const tileContainer = document.getElementById("tileContainer");
 const homeBtn = document.getElementById("homebtn");
-const panel1 = document.getElementById("panel1"),
-	panel2 = document.getElementById("panel2"),
-	panel3 = document.getElementById("panel3"),
+const panel3 = document.getElementById("panel3"),
 	panel4 = document.getElementById("panel4");
 const colorSchemeOcean = [
 	"#00BFFF",
@@ -121,5 +119,8 @@ window.addEventListener("load", () => {
 	});
 	panel4.addEventListener("click", () => {
 		window.location.href = "/data.html";
+	});
+	panel3.addEventListener("click", () => {
+		window.location.href = "/Graph/index.html";
 	});
 });

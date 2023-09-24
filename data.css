@@ -3,16 +3,17 @@
     padding: 0;
 }
 body {
-    background-color: black;
+    background-color: maroon;
+    transition: background-color 2s;
 }
 .homeBtn {
     cursor: pointer;
-    width: calc(5vh + 3vw);
-    height: calc(5vh + 3vw);
+    width: calc(4vh + 2vw);
+    height: calc(4vh + 2vw);
     z-index: 100000;
     position: absolute;
     display: flex;
-    margin: 2vh;
+    margin: 1vh;
     background-image: url("assets/imgs/home-button-icon.svg");
     -webkit-filter: invert(100%); /* Safari/Chrome */
     filter: invert(100%);
@@ -26,3 +27,85 @@ transform: scale(1.2);
     transform: scale(1.2) translateY(4px);
 
     }
+
+.topBar{
+    top: 0;
+    position: absolute;
+    display: flex;
+width: 100vw;
+height: 12vh;
+background: linear-gradient(to right,maroon,maroon,maroon,transparent,transparent);
+
+}
+.mainContainer {
+    top: 12vh;
+    box-sizing: border-box;
+    position: absolute;
+    width: 100vw;
+    height: 88vh;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(0, 255, 255, 0);
+    font-family: 'quicksand';
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.row {
+    display: flex;
+    width: 100%;
+    height: 10vh;
+    border-bottom: 1px dashed black;
+    color: white;
+}
+
+.block {
+    
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    max-width: 6.25vw;
+    border-right: 2px solid black;
+    box-sizing: border-box; /* so that the border doesn't increase the box's size */
+    text-align: center; /* centering the text inside each block */
+    padding: 0.3em; /* some padding for the content */
+    background-color: #00000067; /* a light grey background for better visibility */
+    overflow: hidden;
+    font-size: 0.8em;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    height: 10vh;
+}
+.headblock {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    max-width: 6.25vw;
+    border-right: 2px solid black;
+    box-sizing: border-box; /* so that the border doesn't increase the box's size */
+    text-align: center; /* centering the text inside each block */
+    padding: 0.3em; /* some padding for the content */
+    background-color: rgb(245, 245, 245);
+    color: black;
+    overflow: hidden;
+    font-size: 0.88em;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-variant: small-caps;
+    font-weight: bold;
+    box-shadow: 0px 3px 5px 1px black;
+}
+.block, .headblock {
+    cursor: pointer;
+}
+
+.row .block:last-child {
+    border-right: none; /* remove the border for the last block */
+}
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Keep it above the other content */
+}
