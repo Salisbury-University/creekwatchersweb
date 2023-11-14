@@ -1,3 +1,20 @@
+// Your Firebase configuration (initialize it here)
+const firebaseConfig = {
+	apiKey: "AIzaSyD1n52beNmzhLyqtv29Exw8CIEzde40LOo",
+	authDomain: "creekwatchers-88ce2.firebaseapp.com",
+	databaseURL: "https://creekwatchers-88ce2-default-rtdb.firebaseio.com",
+	projectId: "creekwatchers-88ce2",
+	storageBucket: "creekwatchers-88ce2.appspot.com",
+	messagingSenderId: "799020915481",
+	appId: "1:799020915481:web:e0ac620892635e99760388",
+};
+
+// Initialize Firebasee
+firebase.initializeApp(firebaseConfig);
+
+// Reference to the Firestore database
+const db = firebase.firestore();
+
 // Query
 let homeBtn = document.getElementById("graphhomebtn");
 // Varriables
