@@ -62,12 +62,13 @@ function sortData(querySnapshot, primarySort, secondarySort) {
     let sortedArray = querySnapshot.docs.sort((a, b) => {
         let aData = a.data();
 		let bData = b.data();
-		
+
 		let primaryCompare;
 		switch (primarySort){
 			case 'userName':
 			case 'userSite':
 			case 'glassbottle':
+			case 'pbottle':
 				primaryCompare = compareAlphabetically(aData[primarySort], bData[primarySort]);
 				break;
 			case 'bottomedOut':
@@ -82,15 +83,93 @@ function sortData(querySnapshot, primarySort, secondarySort) {
 				break;
 		}
 
-        if (primaryCompare !== 0 || !secondarySort) return primaryCompare;
-		return a.data()[secondarySort].localeCompare(b.data()[secondarySort]);		
-    });
+        if (primaryCompare !== 0 || !secondarySort){
+			return primaryCompare;
+		}else{
+			return a.data()[secondarySort].localeCompare(b.data()[secondarySort]);		
+		}		
+	});
 
-	console.log("Sorted Array: ", sortedArray);
 	return sortedArray;
 
 }
 
+// Function to fetch and sort data
+function fetchDataAndSort() {
+    const primarySort = document.getElementById('primarySort').value; // Dropdown for primary sort
+    const secondarySort = document.getElementById('secondarySort').value; // Dropdown for secondary sort
+
+    // Reference to the "UserData" collection
+    const userDataCollection = db.collection("UserData");
+
+    // Query the collection to get the data
+    userDataCollection.get().then((querySnapshot) => {
+        // Sort the data
+        let sortedData = sortData(querySnapshot, primarySort, secondarySort);
+
+        // Clear existing data and display the sorted data
+        clearExistingData();
+        displaySortedData(sortedData);
+    });
+}
+
+// Function to display sorted data
+function displaySortedData(sortedData) {
+	const dataRowsContainer = document.getElementById("dataRowsContainer");
+    sortedData.forEach((doc) => {
+        // Process each document and append it to your data display
+		// Get the data from the document
+		const data = doc.data();
+
+		// Create a new row element
+		const newRow = document.createElement("div");
+		newRow.classList.add("row");
+
+		// Loop to generate blocks for data
+		const dataFields = [
+			data.userName,
+			data.date,
+			data.userSite,
+			data.tideEst,
+			data.weathEst,
+			data.waterSurf,
+			data.windSpeed,
+			data.windDir,
+			data.rainfall,
+			data.waterDepth,
+			data.sampleDist,
+			data.airTempAvg,
+			data.waterTempAvg,
+			data.secchiAvg,
+			data.bottomedOut,
+			data.usedTube,
+			data.pbottle,
+			data.glassbottle,
+			data.comments
+		];
+
+		for (let i = 0; i < dataFields.length; i++) {
+			const block = document.createElement("div");
+			block.classList.add("block");
+			block.innerText = dataFields[i];
+			newRow.appendChild(block);
+		}
+
+		// Append the new data row to the main container
+		dataRowsContainer.appendChild(newRow);
+	});
+}
+
+// Event listener for the sort button
+document.getElementById('sortButton').addEventListener('click', fetchDataAndSort);
+
+// onLoad event
+window.addEventListener("load", () => {
+    // Set up the initial display of data
+    fetchDataAndSort(); // This fetches data and appends it to dataRows container
+});
+
+    // Function to clear existing data rows
 function clearExistingData() {
     const dataRowsContainer = document.getElementById("dataRowsContainer");
     while (dataRowsContainer.firstChild) {
@@ -107,8 +186,6 @@ function createDataRow() {
 	// Get Sort Options
 	let primarySort = document.getElementById('primarySort').value;
     let secondarySort = document.getElementById('secondarySort').value;
-
-	console.log("Sorting by: ", primarySort, secondarySort); // For debugging
 
     // Query the collection to get the data
     userDataCollection.get().then((querySnapshot) => {
@@ -204,7 +281,7 @@ function createHeaderRow() {
 	}
 
 	// Append the header row to the main container
-	const mainContainer = document.getElementById("datamaincontainer");
+	const mainContainer = document.getElementById("headerContainer");
 	mainContainer.appendChild(headerRow);
 }
 function setRandomBackColor(element) {
@@ -261,4 +338,3 @@ userDataCollection.get().then((querySnapshot) => {
 		document.getElementById("windSpeed").textContent = data.windSpeed;
 	});
 });
-

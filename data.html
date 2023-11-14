@@ -15,7 +15,7 @@
 					<option value="userName">Name</option>
 					<option value="date">Date</option>
 					<option value="userSite">Site</option>
-					<option value="Tide">Tide</option>
+					<option value="tideEst">Tide</option>
 					<option value="weatherEst">Weather</option>
 					<option value="waterSurf">Water Surface</option>
 					<option value="windSpeed">Wind Speed</option>
@@ -24,18 +24,18 @@
 					<option value="sampleDist">Sample Distance</option>
 					<option value="airTempAvg">Air Temperature</option>
 					<option value="waterTempAvg">Water Temperature</option>
-					<option value="Avg Secchi Depth">Secchi Depth </option>
+					<option value="secchiDepthAvg">Secchi Depth </option>
 					<option value="bottomedOut">Bottomed Out</option>
 					<option value="usedTube">Tube Used</option>
 					<option value="pbottle">Plastic Bottle</option>
 					<option value="glassbottle">Glass Bottle</option>
 				</select>
-				<select id="secondarySort">
+				<select id="secondarySort" disabled>
 					<option value="">Select Secondary Sort</option>
 					<option value="userName">Name</option>
 					<option value="date">Date</option>
 					<option value="userSite">Site</option>
-					<option value="Tide">Tide</option>
+					<option value="tideEst">Tide</option>
 					<option value="weatherEst">Weather</option>
 					<option value="waterSurf">Water Surface</option>
 					<option value="windSpeed">Wind Speed</option>
@@ -44,7 +44,7 @@
 					<option value="sampleDist">Sample Distance</option>
 					<option value="airTempAvg">Air Temperature</option>
 					<option value="waterTempAvg">Water Temperature</option>
-					<option value="Avg Secchi Depth">Secchi Depth </option>
+					<option value="secchiDepthAvg">Secchi Depth </option>
 					<option value="bottomedOut">Bottomed Out</option>
 					<option value="usedTube">Tube Used</option>
 					<option value="pbottle">Plastic Bottle</option>
@@ -56,7 +56,10 @@
 		<div class="homeBtn" id="homebtn"></div>
 		
 
-		<div class="mainContainer" id="datamaincontainer"></div>
+		<div class="mainContainer" id="datamaincontainer">
+			<div id="headerContainer"></div>
+			<div id="dataRowsContainer"></div>
+		</div>
 		
 		<script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
 		<script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-firestore.js"></script>
