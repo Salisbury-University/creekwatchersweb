@@ -26,17 +26,17 @@ transform: scale(1.2);
 .homeBtn:active{
     transform: scale(1.2) translateY(4px);
 
-    }
+}
 
 .topBar{
     top: 0;
     position: absolute;
     display: flex;
-width: 100vw;
-height: 12vh;
-background: linear-gradient(to right,maroon,maroon,maroon,transparent,transparent);
-
+    width: 100vw;
+    height: 12vh;
+    background: linear-gradient(to right,maroon,maroon,maroon,transparent,transparent);
 }
+
 .mainContainer {
     top: 12vh;
     box-sizing: border-box;
@@ -81,7 +81,7 @@ background: linear-gradient(to right,maroon,maroon,maroon,transparent,transparen
     display: flex;
     flex: 1;
     min-width: 0;
-    max-width: 6.25vw;
+    max-width: 10vw;
     border-right: 2px solid black;
     box-sizing: border-box; /* so that the border doesn't increase the box's size */
     text-align: center; /* centering the text inside each block */
@@ -108,4 +108,55 @@ background: linear-gradient(to right,maroon,maroon,maroon,transparent,transparen
     position: sticky;
     top: 0;
     z-index: 1000; /* Keep it above the other content */
+}
+
+.sortOptions {
+    display: flex;
+    justify-content: center;
+    margin: 20px 750px;
+}
+
+/* Dropdown Styles */
+.sortOptions select {
+    padding: 8px 15px;
+    margin: 2px 10px;
+    border: 2px solid #1E90FF; /* Example: Using DodgerBlue from your neonColors */
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    height: 40px;
+}
+
+.sortOptions select:hover {
+    background-color: #e0e0e0; /* Slightly darker on hover */
+    border-color: #FF00FF; /* Example: Using Neon Pink from your neonColors */
+}
+
+.sortOptions select:focus {
+    outline: none;
+    border-color: #00FFFF; /* Example: Using Aqua from your neonColors */
+}
+
+.sortButton{
+    padding: 8px, 15px;
+    margin: 3px 10px;
+    height: 40px;
+    width: 80px;
+    font-size: 16px;
+    justify-content: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sortOptions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .sortOptions select {
+        margin-bottom: 10px;
+    }
 }

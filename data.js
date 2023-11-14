@@ -45,34 +45,131 @@ window.addEventListener("load", () => {
 
 //functions
 
-function createDataRow() {
-	// Create a new row element
-	const newRow = document.createElement("div");
-	newRow.classList.add("row");
+function compareAlphabetically(a, b) {
+    return a.localeCompare(b);
+}
 
-	// Loop to generate 15 blocks with placeholders
-	for (let i = 0; i <= 15; i++) {
-		const block = document.createElement("div");
-		block.classList.add("block");
-		switch (i) {
-			case 0:
-				block.innerText = curData.toString();
-				curData++;
+function compareBoolean(a, b) {
+    return (a === b ? 0 : a ? -1 : 1);
+}
+
+function compareNumerically(a, b) {
+    return Number(a) - Number(b);
+}
+
+
+function sortData(querySnapshot, primarySort, secondarySort) {
+    let sortedArray = querySnapshot.docs.sort((a, b) => {
+        let aData = a.data();
+		let bData = b.data();
+		
+		let primaryCompare;
+		switch (primarySort){
+			case 'userName':
+			case 'userSite':
+			case 'glassbottle':
+				primaryCompare = compareAlphabetically(aData[primarySort], bData[primarySort]);
 				break;
-			default:
-				block.innerText = i.toString();
+			case 'bottomedOut':
+			case 'usedTube':
+				primaryCompare = compareBoolean(aData[primarySort], bData[primarySort]);
+				break;
+			case 'waterDepth':
+			case 'waterTempAvg':
+			case 'airTempAvg':
+			case 'secchiDepthAvg':
+				primaryCompare = compareNumerically(aData[primarySort], bData[primarySort]);
+				break;
 		}
 
-		newRow.appendChild(block);
-	}
+        if (primaryCompare !== 0 || !secondarySort) return primaryCompare;
+		return a.data()[secondarySort].localeCompare(b.data()[secondarySort]);		
+    });
 
-	// Append the new row to the main container
-	const mainContainer = document.getElementById("datamaincontainer");
-	mainContainer.appendChild(newRow);
+	console.log("Sorted Array: ", sortedArray);
+	return sortedArray;
+
 }
+
+function clearExistingData() {
+    const dataRowsContainer = document.getElementById("dataRowsContainer");
+    while (dataRowsContainer.firstChild) {
+        dataRowsContainer.removeChild(dataRowsContainer.firstChild);
+    }
+}
+
+function createDataRow() {
+	console.log("createDataRow called");
+
+    // Reference to the "UserData" collection
+    const userDataCollection = db.collection("UserData");
+
+	// Get Sort Options
+	let primarySort = document.getElementById('primarySort').value;
+    let secondarySort = document.getElementById('secondarySort').value;
+
+	console.log("Sorting by: ", primarySort, secondarySort); // For debugging
+
+    // Query the collection to get the data
+    userDataCollection.get().then((querySnapshot) => {
+        console.log("Data fetched:", querySnapshot.docs.length); // Check if data is fetched
+		
+		// Sort the data based on the selected options
+        let sortedData = sortData(querySnapshot, primarySort, secondarySort);
+
+		
+		sortedData.forEach((doc) => {
+            // Get the data from the document
+            const data = doc.data();
+
+            // Create a new row element
+            const newRow = document.createElement("div");
+            newRow.classList.add("row");
+
+            // Loop to generate blocks for data
+            const dataFields = [
+                data.userName,
+                data.date,
+                data.userSite,
+                data.tideEst,
+                data.weathEst,
+                data.waterSurf,
+                data.windSpeed,
+                data.windDir,
+                data.rainfall,
+                data.waterDepth,
+                data.sampleDist,
+                data.airTempAvg,
+                data.waterTempAvg,
+                data.secchiAvg,
+				data.bottomedOut,
+				data.usedTube,
+				data.pbottle,
+				data.glassbottle,
+				data.comments
+            ];
+
+            for (let i = 0; i < dataFields.length; i++) {
+                const block = document.createElement("div");
+                block.classList.add("block");
+                block.innerText = dataFields[i];
+                newRow.appendChild(block);
+            }
+
+            // Append the new data row to the main container
+            const mainContainer = document.getElementById("datamaincontainer");
+            mainContainer.appendChild(newRow);
+        });
+    });
+}
+
+document.getElementById('sortButton').addEventListener('click', function() {
+    clearExistingData(); // Clear the existing data
+    createDataRow(); // Then populate with sorted data
+});
+
 function createHeaderRow() {
 	const headers = [
-		"#",
 		"Name",
 		"Date",
 		"Site",
@@ -87,6 +184,10 @@ function createHeaderRow() {
 		"Air Temperature",
 		"Water Temperature",
 		"Secci Depth",
+		"Bottomed Out",
+		"Tube Used",
+		"Plastic Bottle",
+		"Glass Bottle",
 		"Comments",
 	];
 
@@ -121,6 +222,43 @@ window.addEventListener("load", () => {
 });
 // Call the functions
 createHeaderRow();
-for (let i = 0; i < 20; i++) {
-	createDataRow();
-}
+createDataRow();
+
+
+// Reference to the "UserData" collection
+const userDataCollection = db.collection("UserData");
+
+// Query the collection to get the data
+userDataCollection.get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+        // Get the data from the document
+        const data = doc.data();
+
+        // Populate HTML elements with the data
+        document.getElementById("userName").textContent = data.userName;
+		if (userNameElement) {
+			userNameElement.textContent = data.userName;
+		}
+        document.getElementById("userSite").textContent = data.userSite;
+        document.getElementById("airTempAvg").textContent = data.airTempAvg;
+		document.getElementById("bottomedOut").textContent = data.bottomedOut;
+		document.getElementById("date").textContent = data.date;
+		document.getElementById("glassbottle").textContent = data.glassbottle;
+		document.getElementById("pbottle").textContent = data.pbottle;
+		document.getElementById("rainfall").textContent = data.rainfall;
+		document.getElementById("sampleDist").textContent = data.sampleDist;
+		document.getElementById("secchiAvg").textContent = data.secchiAvg;
+		document.getElementById("tideEst").textContent = data.tideEst;
+		document.getElementById("usedTube").textContent = data.usedTube;
+		document.getElementById("userName").textContent = data.userName;
+		document.getElementById("userID").textContent = data.userID;
+		document.getElementById("userSite").textContent = data.userSite;
+		document.getElementById("waterDepth").textContent = data.waterDepth;
+		document.getElementById("waterSurf").textContent = data.waterSurf;
+		document.getElementById("waterTempAvg").textContent = data.waterTempAvg;
+		document.getElementById("weathEst").textContent = data.weathEst;
+		document.getElementById("windDir").textContent = data.windDir;
+		document.getElementById("windSpeed").textContent = data.windSpeed;
+	});
+});
+

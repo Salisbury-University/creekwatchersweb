@@ -8,8 +8,76 @@
 		<title>Data</title>
 	</head>
 	<body>
-		<div class="topBar"></div>
+		<div class="topBar">
+			<div class="sortOptions">
+				<select id="primarySort">
+					<option value="">Select Primary Sort</option>
+					<option value="userName">Name</option>
+					<option value="date">Date</option>
+					<option value="userSite">Site</option>
+					<option value="Tide">Tide</option>
+					<option value="weatherEst">Weather</option>
+					<option value="waterSurf">Water Surface</option>
+					<option value="windSpeed">Wind Speed</option>
+					<option value="rainfall">Rainfall</option>
+					<option value="waterDepth">Water Depth</option>
+					<option value="sampleDist">Sample Distance</option>
+					<option value="airTempAvg">Air Temperature</option>
+					<option value="waterTempAvg">Water Temperature</option>
+					<option value="Avg Secchi Depth">Secchi Depth </option>
+					<option value="bottomedOut">Bottomed Out</option>
+					<option value="usedTube">Tube Used</option>
+					<option value="pbottle">Plastic Bottle</option>
+					<option value="glassbottle">Glass Bottle</option>
+				</select>
+				<select id="secondarySort">
+					<option value="">Select Secondary Sort</option>
+					<option value="userName">Name</option>
+					<option value="date">Date</option>
+					<option value="userSite">Site</option>
+					<option value="Tide">Tide</option>
+					<option value="weatherEst">Weather</option>
+					<option value="waterSurf">Water Surface</option>
+					<option value="windSpeed">Wind Speed</option>
+					<option value="rainfall">Rainfall</option>
+					<option value="waterDepth">Water Depth</option>
+					<option value="sampleDist">Sample Distance</option>
+					<option value="airTempAvg">Air Temperature</option>
+					<option value="waterTempAvg">Water Temperature</option>
+					<option value="Avg Secchi Depth">Secchi Depth </option>
+					<option value="bottomedOut">Bottomed Out</option>
+					<option value="usedTube">Tube Used</option>
+					<option value="pbottle">Plastic Bottle</option>
+					<option value="glassbottle">Glass Bottle</option>
+				</select>
+				<button class="sortButton" id="sortButton">Sort Data</button>
+			</div>
+		</div>
 		<div class="homeBtn" id="homebtn"></div>
+		
+
 		<div class="mainContainer" id="datamaincontainer"></div>
+		
+		<script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-firestore.js"></script>
+		
+		<script>
+    		// Your Firebase configuration (initialize it here)
+			const firebaseConfig = {
+				apiKey: "AIzaSyD1n52beNmzhLyqtv29Exw8CIEzde40LOo",
+				authDomain: "creekwatchers-88ce2.firebaseapp.com",
+				databaseURL: "https://creekwatchers-88ce2-default-rtdb.firebaseio.com",
+				projectId: "creekwatchers-88ce2",
+				storageBucket: "creekwatchers-88ce2.appspot.com",
+				messagingSenderId: "799020915481",
+				appId: "1:799020915481:web:e0ac620892635e99760388",
+			};
+
+			// Initialize Firebase
+			firebase.initializeApp(firebaseConfig);
+
+			// Reference to the Firestore database
+			const db = firebase.firestore();
+		</script>
 	</body>
 </html>
