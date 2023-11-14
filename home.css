@@ -117,81 +117,19 @@ body{
     color: white; /* You can adjust this as needed */
     font-family: 'quicksand';
 }
-.panel {
-    border-top-right-radius: 10%;
-    border-top-left-radius: 10%;
-    font-family: 'quicksand';
-    cursor: pointer;
-    box-sizing: border-box;
-    height: 100%;
-    flex: 1; /* Equal width for all panels */
-    display: flex;
-    flex-direction: column; /* Stack children vertically */
-    align-items: center; /* Center children horizontally */
-    padding: 10px;
-    background: transparent;
-    transition: background-color 0.5s, color 0.5s ease, text-shadow 0.5s ease; /* Transition for hover and focus */
-}
 
-/* Define colors for panels */
-
-
-/* Styles for titles */
-.panel-title {
-    animation: bounce 2.1s ease 0s infinite alternate paused;
-    font-family: 'quicksand';
-    font-size: 1.9em;
-    margin-bottom: 10px; /* Spacing between title and separator */
-}
-
-/* Separator line beneath the title */
-.panel-separator {
-    width: 80%; /* Adjust if you want a different length */
-    margin-bottom: 20px; /* Spacing between separator and description */
-    transition: border-color 0.5s ease;
-    
-}
-.panel-separator:hover {
-}
-
-/* Styles for descriptions */
-.panel-description {
-    font-size: 1em;
-    text-align: left;
-    width: 100%; /* Ensure it takes the full width of the panel */
-}
-
-/* Hover and focus styles */
-.panel:hover {
-    filter: brightness(1.3); /* Brighten the color slightly */
-    color: black;
-    text-shadow: none;
-    background-color: var(--panel1-color-hover);
-}
-
-/* Change separator color when panel is hovered */
-.panel:hover .panel-separator {
-    border-color: black;
-}
-.panel:hover .panel-title {
-    animation-play-state: running;
-}
-
-.panel:active {
-    filter: brightness(1.1); /* Darken the color slightly */
-}
 #loginButton {
     font-family: 'quicksand';
     text-shadow: 0px 1px 4px black;
     box-shadow: 0px 1px 10px 1px black, inset 0px 1px 10px 1px black;
     background-color: transparent;
-    left: calc(50vw - 10vh);
-    top: 45vh;
+    left: calc(50vw - 15vh);
+    top: 35vh;
     position: absolute;
     z-index: 3;
-    height: 10vh;
-    width: 20vh;
-    font-size: 1.5em;
+    height: 15vh;
+    width: 25vh;
+    font-size: 2.5em;
     letter-spacing: 2px;
     border: 2px solid white;
     border-radius: 10px;
@@ -206,23 +144,29 @@ body{
     transition: opacity 1s, transform 0.25s;
     transform: scale(1.25);
 }
-.homeBtn {
-    cursor: pointer;
-    width: calc(5vh + 3vw);
-    height: calc(5vh + 3vw);
-    z-index: 100000;
+#guestButton {
+    font-family: 'quicksand';
+    text-shadow: 0px 1px 4px black;
+    box-shadow: 0px 1px 10px 1px black, inset 0px 1px 10px 1px black;
+    background-color: transparent;
+    left: calc(50vw - 15vh);
+    top: 60vh;
     position: absolute;
-    display: flex;
-    margin: 2vh;
-    background-image: url("assets/imgs/home-button-icon.svg");
-    -webkit-filter: invert(100%); /* Safari/Chrome */
-    filter: invert(100%);
-    transition: transform 0.15s;
-    
+    z-index: 3;
+    height: 15vh;
+    width: 25vh;
+    font-size: 2.5em;
+    letter-spacing: 2px;
+    border: 2px solid white;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    transition: opacity 1s, transform 0.4s; /* For fading effect */
 }
-.homeBtn:hover{
-transform: scale(1.2);
+#guestButton:hover {
+   transform: scale(1.35);
 }
-.homeBtn:active{
-    transform: scale(1.2) translateY(4px);
-    }
+#guestButton:active {
+    transition: opacity 1s, transform 0.25s;
+    transform: scale(1.25);
+}
