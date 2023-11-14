@@ -215,21 +215,22 @@ body{
 
 .settingsBtn {
     cursor: pointer;
-    width: calc(5vh + 3vw);
-    height: calc(5vh + 3vw);
+    width: calc(4vh + 2vw);
+    height: calc(4vh + 2vw);
     z-index: 100000;
     position: fixed;
     top: 2vh; /* Adjust the top position for the home button */
-    right: 2vh; /* Adjust the left position for the home button */
-    background-image: url("assets/imgs/home-button-icon.svg");
-    -webkit-filter: invert(100%); /* Safari/Chrome */
+    right: 3vh; /* Adjust the left position for the home button */
+    background-image: url("assets/imgs/settings.png");
+    -webkit-filter: invert(100%);
     filter: invert(100%);
     transition: transform 0.15s;
 }
+
 .popup {
     display: none;
     position: fixed;
-    background-color: blue;
+    background-color: rgb(4, 4, 127);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     /* padding: 10px; */
 	width: 25vh;
@@ -250,33 +251,29 @@ body{
     
     display: flex;
     justify-content: left;
-	padding-left: 2vh;
+	padding-left: 1.5vh;
     align-items: center;
     background: transparent;
     z-index: 2; /* To ensure it sits above the blurred background */
-    font-size: 1.5em; /* Adjust font size as required */
+    font-size: 1.65em; /* Adjust font size as required */
     color: white; /* You can adjust this as needed */
     font-family: 'quicksand';
 
 }
-.friendimg {
-	background-image: url("assets/imgs/addUser.svg");
+
+.addUserImg {
+	/* background-image: url("assets/imgs/addUser.svg"); */
 	cursor: pointer; 
-   
     z-index: 100000;
     position: fixed;
- 
- 
-   
-    
-	width: 65px; /* Adjust the width as needed */
-	height: 65px; /* Adjust the height as needed */
-	top: 5.5%;
-	right: 4%;
-
+	width: 60px; /* Adjust the width as needed */
+	height: 60px; /* Adjust the height as needed */
+	top: 5.25%;
+	right: 4.25%;
+	-webkit-filter: invert(100%); /* Safari/Chrome */
+    filter: invert(100%);
 
 }
-
 
 .popup-button2 {
     display: block;
@@ -295,5 +292,4 @@ body{
     font-size: 1.5em; /* Adjust font size as required */
     color: white; /* You can adjust this as needed */
     font-family: 'quicksand';
-
 }

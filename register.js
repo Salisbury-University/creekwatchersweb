@@ -88,7 +88,9 @@ function transitionColors(currentScheme, nextScheme) {
 
 // User Registration Function
 function registerUser() {
-	const email = document.getElementById("email").value;
+
+	const errorMessageElement = document.querySelector('.error-message');
+	const email = document.getElementById("username").value;
 	const password = document.getElementById("password").value;
   
 	firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -96,11 +98,36 @@ function registerUser() {
 		// Registration successful
 		const user = userCredential.user;
 		console.log("User registered: " + user.email);
+		errorMessageElement.style.color = 'green';
+		errorMessageElement.textContent = 'User Registered: ' + user.email;
 	  })
 	  .catch((error) => {
-		// Handle registration errors
-		const errorMessage = error.message;
-		console.error(errorMessage);
+			// Handle registration errors
+			const errorCode = error.code;
+			const errorMessage = error.message;
+			errorMessageElement.style.color = 'red';
+	
+			switch (errorCode) {
+				case 'auth/invalid-email':
+					// Handle invalid email
+					console.error('Invalid email');
+					errorMessageElement.textContent = 'Invalid email';
+					break;
+				case 'auth/weak-password':
+					// Handle weak password
+					console.error('Weak password');
+					errorMessageElement.textContent = 'Weak password';
+					break;
+				case 'auth/email-already-in-use':
+					// Handle email already in use
+					console.error('Email already in use');
+					errorMessageElement.textContent = 'Email already registered: ' + email;
+					break;
+				default:
+					// Handle other errors
+					console.error(errorMessage);
+					break;
+			}
 	  });
 }
 
@@ -149,10 +176,10 @@ window.addEventListener("load", () => {
 		[currentScheme, nextScheme] = [nextScheme, currentScheme];
 	}, 4000); // every 4 seconds
 	homeBtn.addEventListener("click", () => {
-		window.location.href = "/home.html";
+		window.location.href = "/menu.html";
 	});
 	loginBtn.addEventListener("click", () => {
-		loginUser();
+		registerUser();
 	});
 
 });

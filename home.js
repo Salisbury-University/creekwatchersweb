@@ -2,6 +2,9 @@ const tileContainer = document.getElementById("tileContainer");
 const homeBtn = document.getElementById("homebtn");
 const panel3 = document.getElementById("panel3"),
 	panel4 = document.getElementById("panel4");
+
+setUserLoggedInStatus(false);
+
 const colorSchemeOcean = [
 	"#00BFFF",
 	"#1E90FF",

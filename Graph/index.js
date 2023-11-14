@@ -263,7 +263,13 @@ function plotGraphWithAverage(dataset, plotStrList, labelStr) {
 
 function setUpHomeBtn() {
 	homeBtn.addEventListener("click", () => {
+		if(isUserLoggedIn()){
+		console.log("is logged in.");
+		document.location.href = "/menu.html";
+		}else{
+		console.log("is not logged in.");
 		document.location.href = "/home.html";
+		}
 	});
 }
 document.addEventListener("DOMContentLoaded", () => {

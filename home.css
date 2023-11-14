@@ -124,7 +124,7 @@ body{
     box-shadow: 0px 1px 10px 1px black, inset 0px 1px 10px 1px black;
     background-color: transparent;
     left: calc(50vw - 15vh);
-    top: 35vh;
+    top: 30vh;
     position: absolute;
     z-index: 3;
     height: 15vh;
@@ -150,7 +150,7 @@ body{
     box-shadow: 0px 1px 10px 1px black, inset 0px 1px 10px 1px black;
     background-color: transparent;
     left: calc(50vw - 15vh);
-    top: 60vh;
+    top: 55vh;
     position: absolute;
     z-index: 3;
     height: 15vh;

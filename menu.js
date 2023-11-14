@@ -25,6 +25,8 @@ const colorSchemeNightSky = [
 	"#FAFAD2",
 ];
 
+console.log(window.isLoggedIn);
+
 // Determine tile size and number
 const tilesAcrossWidth = 20;
 const tileSize = window.innerWidth / tilesAcrossWidth;
@@ -119,6 +121,7 @@ window.addEventListener("load", () => {
 		window.location.href = "/Graph/index.html";
 	});
 	homeBtn.addEventListener("click", () => {
+		setUserLoggedInStatus(false);
 		window.location.href = "/home.html";
 	});
 });
@@ -127,10 +130,12 @@ window.addEventListener("load", () => {
 document.addEventListener("DOMContentLoaded", function () {
     const settingsBtn = document.getElementById("settingsbtn");
     const popup = document.getElementById("popup1");
-
-    settingsBtn.addEventListener("mouseover", function () {
+	const popBtn1 = document.getElementById("popbtn1");
+    
+	settingsBtn.addEventListener("click", function () {
         popup.style.display = "block";
     });
+	
 	popup.addEventListener("mouseover", function () {
         popup.style.display = "block";
     });
@@ -142,5 +147,10 @@ document.addEventListener("DOMContentLoaded", function () {
     settingsBtn.addEventListener("mouseout", function () {
         popup.style.display = "none";
     });
+
+	popBtn1.addEventListener("click", function () {
+        window.location.href = "/register.html";
+    });
+
 
 });

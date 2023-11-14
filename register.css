@@ -1,0 +1,242 @@
+@font-face {
+    font-family: 'quicksand';
+    src: url(assets/fonts/Quicksand/Quicksand-VariableFont_wght.ttf);
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(10px);
+    }
+    100% {
+        transform: translateY(-10px);
+    }
+}
+
+:root {
+    --panel1-color: rgba(214, 214, 214, 0.52);
+    --panel2-color: rgba(214, 214, 214, 0.52);
+    --panel3-color: rgba(214, 214, 214, 0.52);
+    --panel1-color-hover: rgba(214, 214, 214, 0.65);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column; /* Display children in a column */
+    align-items: center; /* Center the content horizontally */
+    
+}
+
+.topbar {
+    z-index: 10000;
+    position: fixed;
+    top: 0;
+    height: 10vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.39);
+}
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.tile {
+    width: 50px;  /* You can change the size as required */
+    height: 50px;
+    transition: background-color 2s;
+}
+
+.front, .back {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    backface-visibility: hidden;
+}
+#tileContainer {
+    display: flex;
+    position: relative;
+    overflow: hidden; /* Ensures the ::before doesn't affect outside of tileContainer */
+}
+.mainContainer {
+    box-sizing: border-box;
+    overflow: hidden;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+#tileContainer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5); /* Darkens by adding a 50% black overlay. Adjust as needed. */
+    backdrop-filter: blur(1px); /* Blurs underlying content */
+    pointer-events: none; /* Ensures interactions aren't blocked */
+    z-index: 1; /* Places it above the tiles but below other content */
+}
+.mainTitle {
+    cursor: pointer;
+    box-sizing: border-box;
+    text-shadow: 0px 5px 4px black;
+    left: 10vw;
+    position: absolute;
+    width: 80vw; /* 60% of viewport width */
+    height: 20vh; /* 60% of viewport height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    z-index: 2; /* To ensure it sits above the blurred background */
+    font-size: 5em; /* Adjust font size as required */
+    color: white; /* You can adjust this as needed */
+    font-family: 'quicksand';
+}
+.error-message {
+    cursor: pointer;
+    box-sizing: border-box;
+    text-shadow: 0px 5px 4px black;
+    left: 10vw;
+    position: absolute;
+    width: 80vw; /* 60% of viewport width */
+    height: 55vh; /* 60% of viewport height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    z-index: 2; /* To ensure it sits above the blurred background */
+    font-size: 1.5em; /* Adjust font size as required */
+    color: red; /* You can adjust this as needed */
+    font-family: 'quicksand';
+}
+.mainContent {
+    display: flex;
+	flex-direction: column;
+    /* display: none; Initially hidden */
+    transition: opacity 1s; /* For fading effect */
+    box-sizing: border-box;
+    text-shadow: 0px 5px 4px black;
+    left: 5vw;
+    top: 10%;
+    position: absolute;
+    width: 90vw; /* 60% of viewport width */
+    height: 80vh; /* 60% of viewport height */
+    
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    z-index: 3; /* To ensure it sits above the blurred background */
+    font-size: 1.5em; /* Adjust font size as required */
+    color: white; /* You can adjust this as needed */
+    font-family: 'quicksand';
+    
+}
+
+
+/* Add these styles to display the labels and input boxes horizontally */
+.label-input-group {
+	font-family: 'quicksand';
+    display: flex;
+    align-items: center;
+	text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 30px; /* Add some spacing between label-input groups */
+	
+    text-shadow: 0px 1px 4px black;
+
+    z-index: 3;
+    height: 10vh;
+    width: 50vh;
+    font-size: 1.5em;
+    letter-spacing: 2px;
+    border: 2px solid white;
+    border-radius: 10px;
+    color: white;
+
+    /* position: relative; */
+
+    /* transform: translateY(300%); */
+	
+    transition: opacity 1s, transform 0.4s; /* For fading effect */
+}
+
+label {
+    text-align: left;
+    margin-right: 15px; /* Add some spacing between label and input box */
+    margin-left: 15px; /* Add some spacing between label and input box */
+    margin-bottom: 15px;
+    margin-top: 10px;
+}
+
+#username,
+#password {
+    font-family: 'quicksand';
+    width: 50%; /* Adjust the width as needed */
+    box-sizing: border-box;
+    padding: 8px;
+    
+}
+
+#loginButton {
+    font-family: 'quicksand';
+    text-shadow: 0px 1px 4px black;
+    box-shadow: 0px 1px 10px 1px black, inset 0px 1px 10px 1px black;
+    background-color: transparent;
+    /* position: absolute; */
+    z-index: 3;
+    /* top: 65vh; Adjust the top position to place it in the middle */
+    left: calc(50vw - 10vh); /* Center the login button horizontally */
+    height: 10vh;
+    width: 20vh;
+    font-size: 1.5em;
+    letter-spacing: 2px;
+    border: 2px solid white;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    transition: opacity 1s, transform 0.4s; /* For fading effect */
+}
+
+#loginButton:hover {
+    transform: scale(1.35);
+}
+
+#loginButton:active {
+    transition: opacity 1s, transform 0.25s;
+    transform: scale(1.25);
+}
+
+
+/* Home button styles */
+.homeBtn {
+    cursor: pointer;
+    width: calc(5vh + 3vw);
+    height: calc(5vh + 3vw);
+    z-index: 100000;
+    position: fixed;
+    top: 2vh; /* Adjust the top position for the home button */
+    left: 2vh; /* Adjust the left position for the home button */
+    background-image: url("assets/imgs/home-button-icon.svg");
+    -webkit-filter: invert(100%); /* Safari/Chrome */
+    filter: invert(100%);
+    transition: transform 0.15s;
+}
+
+.homeBtn:hover {
+    transform: scale(1.2);
+}
+
+.homeBtn:active {
+    transform: scale(1.2) translateY(4px);
+}
