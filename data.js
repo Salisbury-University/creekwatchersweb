@@ -1,4 +1,3 @@
-//test
 //variables
 const homeBtn = document.getElementById("homebtn");
 const totalData = 2;
