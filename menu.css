@@ -185,13 +185,12 @@ body{
 /* Home button styles */
 .homeBtn {
     cursor: pointer;
-    width: calc(5vh + 3vw);
-    height: calc(5vh + 3vw);
+    width: calc(4vh + 3vw);
+    height: calc(3.25vh + 3vw);
     z-index: 100000;
     position: fixed;
-    top: 2vh; /* Adjust the top position for the home button */
+    top: 2.2vh; /* Adjust the top position for the home button */
     left: 2vh; /* Adjust the left position for the home button */
-    background-image: url("assets/imgs/home-button-icon.svg");
     -webkit-filter: invert(100%); /* Safari/Chrome */
     filter: invert(100%);
     transition: transform 0.15s;
@@ -232,33 +231,31 @@ body{
     position: fixed;
     background-color: rgb(4, 4, 127);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    /* padding: 10px; */
-	width: 25vh;
-    height: 25vh;
+    padding: 20px;
+	width: 200px;
+    height: 150px;
     z-index: 100000;
-    top: 2vh; /* Adjust the top position for the home button */
-    right: 2vh; /* Adjust the left position for the home button */
+    top: 2vh;
+    right: 2vh; 
+    border-radius: 10px;
     
 }
-.popup-button1 {
-    display: block;
-	width: 25vh;
-	height: 12.5vh;
-
-	cursor: pointer;
+.popup-button1,.popup-button2 {
+    width: 100%;
+    flex: 1;
+    cursor: pointer;
     box-sizing: border-box;
     text-shadow: 0px 5px 4px black;
-    
     display: flex;
     justify-content: left;
-	padding-left: 1.5vh;
+    padding-left: 1.5vh;
     align-items: center;
     background: transparent;
-    z-index: 2; /* To ensure it sits above the blurred background */
-    font-size: 1.65em; /* Adjust font size as required */
-    color: white; /* You can adjust this as needed */
+    z-index: 2;
+    font-size: 1.5em;
+    color: white; 
     font-family: 'quicksand';
-
+    overflow: hidden;
 }
 
 .addUserImg {
@@ -272,24 +269,29 @@ body{
 	right: 4.25%;
 	-webkit-filter: invert(100%); /* Safari/Chrome */
     filter: invert(100%);
+    pointer-events: none;
 
 }
 
-.popup-button2 {
-    display: block;
-	width: 25vh;
-	height: 12.5vh;
 
-	cursor: pointer;
-    box-sizing: border-box;
-    text-shadow: 0px 5px 4px black;
-    
+.popup-button1:hover,
+.popup-button2:hover {
+
+    filter: brightness(1.3); /* Brighten the color slightly */
+    color: black;
+    text-shadow: none;
+    background-color: var(--panel1-color-hover);
+    box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.8) inset;
+    font-weight: bold;
+
+}
+.popup-button1:hover + .addUserImg {
+    filter: invert(0%);
+    -webkit-filter: invert(0%);
+}
+
+.popup-content {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    background: transparent;
-    z-index: 2; /* To ensure it sits above the blurred background */
-    font-size: 1.5em; /* Adjust font size as required */
-    color: white; /* You can adjust this as needed */
-    font-family: 'quicksand';
 }

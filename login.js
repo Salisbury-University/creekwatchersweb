@@ -1,6 +1,10 @@
 const tileContainer = document.getElementById("tileContainer");
 const homeBtn = document.getElementById("homebtn");
 const loginBtn = document.getElementById("loginButton");
+const passwordInput = document.getElementById("password");
+const usernameInput = document.getElementById("username");
+
+setUserLoggedInStatus(false);
 
 const colorSchemeOcean = [
 	"#00BFFF",
@@ -85,26 +89,6 @@ function transitionColors(currentScheme, nextScheme) {
 	}
 }
 
-
-// User Registration Function
-function registerUser() {
-	const email = document.getElementById("email").value;
-	const password = document.getElementById("password").value;
-  
-	firebase.auth().createUserWithEmailAndPassword(email, password)
-	  .then((userCredential) => {
-		// Registration successful
-		const user = userCredential.user;
-		console.log("User registered: " + user.email);
-	  })
-	  .catch((error) => {
-		// Handle registration errors
-		const errorMessage = error.message;
-		console.error(errorMessage);
-	  });
-}
-
-
 function loginUser() {
 	const errorMessageElement = document.querySelector('.error-message');
 
@@ -148,11 +132,29 @@ window.addEventListener("load", () => {
 		// Swap schemes for the next transition
 		[currentScheme, nextScheme] = [nextScheme, currentScheme];
 	}, 4000); // every 4 seconds
+
 	homeBtn.addEventListener("click", () => {
 		window.location.href = "/home.html";
 	});
+
 	loginBtn.addEventListener("click", () => {
 		loginUser();
+	});
+
+	passwordInput.addEventListener("keydown", function (event) {
+		// Check if the pressed key is Enter (key code 13)
+		if (event.keyCode === 13) {
+		  // Call your function here
+		  loginUser();
+		}
+	  });
+	
+	usernameInput.addEventListener("keydown", function (event) {
+	// Check if the pressed key is Enter (key code 13)
+	if (event.keyCode === 13) {
+		// Call your function here
+		loginUser();
+	}
 	});
 
 });

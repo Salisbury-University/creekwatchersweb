@@ -1,6 +1,8 @@
 const tileContainer = document.getElementById("tileContainer");
 const homeBtn = document.getElementById("homebtn");
 const loginBtn = document.getElementById("loginButton");
+const passwordInput = document.getElementById("password");
+const usernameInput = document.getElementById("username");
 
 const colorSchemeOcean = [
 	"#00BFFF",
@@ -114,14 +116,15 @@ function registerUser() {
 					errorMessageElement.textContent = 'Invalid email';
 					break;
 				case 'auth/weak-password':
-					// Handle weak password
+					// Handle weak password, I think you have to enable this 
+					//because i've been using 'password' as password and it doesn't return an error
 					console.error('Weak password');
 					errorMessageElement.textContent = 'Weak password';
 					break;
 				case 'auth/email-already-in-use':
 					// Handle email already in use
 					console.error('Email already in use');
-					errorMessageElement.textContent = 'Email already registered: ' + email;
+					errorMessageElement.textContent = 'Email already in use: ' + email;
 					break;
 				default:
 					// Handle other errors
@@ -129,41 +132,6 @@ function registerUser() {
 					break;
 			}
 	  });
-}
-
-
-function loginUser() {
-	const errorMessageElement = document.querySelector('.error-message');
-
-    var email = document.getElementById('username').value;
-    var password = document.getElementById('password').value;
-	
-	firebase.auth().signInWithEmailAndPassword(email, password)
-	.then((userCredential) => {
-		const user = userCredential.user;
-		console.log(user);
-		setUserLoggedInStatus(true);
-		window.location.href = "/menu.html";
-	})
-	.catch((error) => {
-		const errorCode = error.code;
-		const errorMessage = error.message;
-
-		switch (errorCode) {
-			case 'auth/invalid-email':
-				errorMessageElement.textContent = 'Invalid Login';
-				break;
-			case 'auth/user-not-found':
-				errorMessageElement.textContent = 'User not found';
-				break;
-			case 'auth/wrong-password':
-				errorMessageElement.textContent = 'Incorrect password';
-				break;
-			default:
-				errorMessageElement.textContent = 'Invalid Login';
-		}
-	});
-
 }
 
 let currentScheme = colorSchemeOcean;
@@ -181,6 +149,21 @@ window.addEventListener("load", () => {
 	loginBtn.addEventListener("click", () => {
 		registerUser();
 	});
+	passwordInput.addEventListener("keydown", function (event) {
+		// Check if the pressed key is Enter (key code 13)
+		if (event.keyCode === 13) {
+		  // Call your function here
+		  registerUser();
+		}
+	  });
+	  usernameInput.addEventListener("keydown", function (event) {
+		// Check if the pressed key is Enter (key code 13)
+		if (event.keyCode === 13) {
+		  // Call your function here
+		  registerUser();
+		}
+	  });
+	  
 
 });
 
