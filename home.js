@@ -2,6 +2,9 @@ const tileContainer = document.getElementById("tileContainer");
 const homeBtn = document.getElementById("homebtn");
 const panel3 = document.getElementById("panel3"),
 	panel4 = document.getElementById("panel4");
+
+setUserLoggedInStatus(false);
+
 const colorSchemeOcean = [
 	"#00BFFF",
 	"#1E90FF",
@@ -86,25 +89,33 @@ function transitionColors(currentScheme, nextScheme) {
 		}
 	}
 }
+
+function openLoginWindow() {
+	loginTransition();
+	var userLoginUrl = 'login.html'
+	window.location.href = userLoginUrl;
+}
+
+function guestLogin() {
+	loginTransition();
+	var guestLoginUrl = '/Graph/index.html'
+	window.location.href = guestLoginUrl;
+}
+
 function loginTransition() {
 	const loginButton = document.getElementById("loginButton");
-	const mainContent = document.getElementById("mainContent");
+	const guestButton = document.getElementById("guestButton");
 
 	// Fade out the login button
 	loginButton.style.opacity = "0";
-	loginButton.style.transition = "opacity 1s, transform 1s";
+	loginButton.style.transition = "opacity 3s, transform 1s";
 	loginButton.style.transform = "scale(0.2)";
 
-	// After the 1-second transition, hide the button and show and fade in mainContent
-	setTimeout(() => {
-		loginButton.style.display = "none";
-
-		mainContent.style.display = "flex";
-		setTimeout(() => {
-			mainContent.style.opacity = "1";
-		}, 50); // Short delay to ensure display: block is applied before starting the opacity transition
-	}, 1000);
+	guestButton.style.opacity = "0";
+	guestButton.style.transition = "opacity 3s, transform 1s";
+	guestButton.style.transform = "scale(0.2)";
 }
+
 let currentScheme = colorSchemeOcean;
 let nextScheme = colorSchemeNightSky;
 window.addEventListener("load", () => {
@@ -114,13 +125,4 @@ window.addEventListener("load", () => {
 		// Swap schemes for the next transition
 		[currentScheme, nextScheme] = [nextScheme, currentScheme];
 	}, 4000); // every 4 seconds
-	homeBtn.addEventListener("click", () => {
-		window.location.href = "/home.html";
-	});
-	panel4.addEventListener("click", () => {
-		window.location.href = "/data.html";
-	});
-	panel3.addEventListener("click", () => {
-		window.location.href = "/Graph/index.html";
-	});
 });
