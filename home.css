@@ -93,7 +93,7 @@ body{
     align-items: center;
     background: transparent;
     z-index: 2; /* To ensure it sits above the blurred background */
-    font-size: 5em; /* Adjust font size as required */
+    font-size: 4em; /* Adjust font size as required */
     color: white; /* You can adjust this as needed */
     font-family: 'quicksand';
 }

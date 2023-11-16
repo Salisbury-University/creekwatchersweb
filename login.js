@@ -1,6 +1,7 @@
 const tileContainer = document.getElementById("tileContainer");
 const homeBtn = document.getElementById("homebtn");
 const loginBtn = document.getElementById("loginButton");
+const forgotBtn = document.getElementById("forgotButton");
 const passwordInput = document.getElementById("password");
 const usernameInput = document.getElementById("username");
 
@@ -123,6 +124,34 @@ function loginUser() {
 
 }
 
+const auth = firebase.auth();
+
+function openForgotPopup() {
+	console.log("Opening popup window...");
+	document.getElementById('forgotPopup').style.display = 'block';
+	document.getElementById('mainContent').style.display = 'none';
+}
+
+function closeForgotPopup() {
+  document.getElementById('forgotPopup').style.display = 'none';
+  document.getElementById('mainContent').style.display = '';
+}
+
+function handleForgotPassword() {
+  const email = document.getElementById('forgotemail').value;
+
+  auth.sendPasswordResetEmail(email)
+	.then(() => {
+	  console.log('Password reset email sent');
+	  alert('Password reset email sent. Check your inbox.');
+	  closeForgotPopup();
+	})
+	.catch((error) => {
+	  console.error(error.message);
+	  alert('Error: ' + error.message);
+	});
+}
+
 let currentScheme = colorSchemeOcean;
 let nextScheme = colorSchemeNightSky;
 window.addEventListener("load", () => {
@@ -139,6 +168,10 @@ window.addEventListener("load", () => {
 
 	loginBtn.addEventListener("click", () => {
 		loginUser();
+	});
+
+	forgotBtn.addEventListener("click", () => {
+		openForgotPopup();
 	});
 
 	passwordInput.addEventListener("keydown", function (event) {
@@ -158,4 +191,3 @@ window.addEventListener("load", () => {
 	});
 
 });
-
