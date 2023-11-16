@@ -39,7 +39,7 @@ const galaxyColors = [
 //event listeners
 window.addEventListener("load", () => {
 	homeBtn.addEventListener("click", () => {
-		window.location.href = "/home.html";
+		window.location.href = "/menu.html";
 	});
 });
 

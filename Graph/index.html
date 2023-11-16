@@ -5,10 +5,43 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Dynamic Graph</title>
+		<script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-firestore.js"></script>
+		<script src="../auth.js" defer></script>
 		<script src="index.js" defer></script>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 	</head>
 	<body>
+		<!-- The Popup -->
+		<div id="popupWindow" class="popup">
+			<!-- Popup content -->
+			<div class="popup-content">
+				<span class="close-btn">&times;</span>
+				<div class="dropdown">
+					<label for="weekDropdown">Week:</label>
+					<select id="weekDropdown">
+						<option value="1-7">Days 1-7</option>
+						<option value="8-14">Days 8-14</option>
+						<option value="15-22">Days 15-22</option>
+						<option value="23+">Days 23+</option>
+					</select>
+				</div>
+				<div class="dropdown">
+					<label for="monthDropdown">Month:</label>
+					<select id="monthDropdown">
+						<!-- Populate with months -->
+					</select>
+				</div>
+				<div class="dropdown">
+					<label for="yearDropdown">Year:</label>
+					<select id="yearDropdown">
+						<!-- Populate with years starting from 2022 to current year -->
+					</select>
+				</div>
+				<div class="confirm-btn" id="confirmBtn">Confirm</div>
+			</div>
+		</div>
+
 		<div class="selectMenu"></div>
 		<div class="topBarHolder">
 			<div class="TBLeftIcon">
