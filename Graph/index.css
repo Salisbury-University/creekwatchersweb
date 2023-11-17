@@ -215,3 +215,61 @@ body {
     background: rgba(175, 175, 175, 0.85);
 }
 
+/* Popup styling */
+.popup {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 10000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Popup content */
+.popup-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%; /* Could be more or less, depending on screen size */
+    border-radius: 10px;
+    box-shadow: 0px 0px 30px 1px rgba(0, 0, 0, 0.25);
+}
+
+/* Close button */
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Dropdown styles */
+.dropdown {
+    padding: 10px;
+    margin: 10px 0;
+}
+
+/* confirm btn*/
+.confirm-btn {
+    cursor: pointer;
+    bottom: 5%;
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 16px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: 2px solid black;
+}

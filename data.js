@@ -1,7 +1,7 @@
-//variables
 const homeBtn = document.getElementById("homebtn");
-const totalData = 2;
-let curData = 1;
+const userData = [];
+// Reference to the "UserData" collection
+const userDataCollection = db.collection("UserData");
 const neonColors = [
 	"#FF00FF", // Neon Pink
 	"#00FF00", // Neon Green
@@ -36,14 +36,119 @@ const galaxyColors = [
 	"#3C1414", // Dark brownish-red (representing deep space red)
 ];
 
+const tideMapping = {
+    "High": 5,
+    "Middle Falling": 4,
+    "Low": 3,
+	"Middle Flooding": 2,
+	"Non-Tridal": 1,
+	"nan": 0
+};
+
+const surfMapping = {
+	"Heavy Chop": 4,
+	"Choppy": 3,
+	"Ripples": 2,
+	"Calm": 1,
+	"nan": 0
+};
+
+const weatherMapping = {
+    "Snow": 8,
+    "Fog": 7,
+    "Heavy Rain": 6,
+	"Rain": 5, 
+	"Light Rain": 4,
+	"Cloudy": 3,
+	"Partly Cloudy": 2,
+	"Clear": 1,
+	"nan": 0
+};
+
+const windSpeedMapping = {
+	"Heavy": 4,
+	"Medium": 3,
+	"Light": 2,
+	"Calm": 1,
+	"nan": 0
+};
+
+const windDirMapping = {
+	"nan": 0,
+	"North": 1,
+	"North East": 2,
+	"North West": 3,
+	"East": 4,
+	"West": 5,
+	"South East": 6,
+	"South West": 7,
+	"South": 8 
+};
+
+const rainMapping = {
+	"Unusual Storm": 6,
+	"Heavy": 5,
+	"Medium": 4,
+	"Light": 3,
+	"Trace": 2,
+	"None": 1,
+	"nan": 0
+};
+
 //event listeners
 window.addEventListener("load", () => {
-	homeBtn.addEventListener("click", () => {
-		window.location.href = "/menu.html";
-	});
+    homeBtn.addEventListener("click", () => {
+        window.location.href = "/home.html";
+    });
+    setInterval(() => {
+        setRandomBackColor(document.body);
+    }, 10000);
+
+    // Function Calls on Load
+    createHeaderRow();
+    createDataRow(userData); // Initially passing userData, assuming it's populated
+    queryData();
 });
 
-//functions
+document.getElementById('sortButton').addEventListener('click', () => {
+    let primarySortOption = document.getElementById('primarySort').value;
+    let secondarySortOption = document.getElementById('secondarySort').value;
+
+	console.log("Sorting with:", primarySortOption, secondarySortOption); // Debugging log
+
+    let sortedResult = sortData(userData, primarySortOption, secondarySortOption);
+
+	console.log("Sorted Result:", sortedResult); // Debugging log
+
+	clearExistingData();
+    createDataRow(sortedResult);
+});
+
+document.getElementById('primarySort').addEventListener('change', function(){
+	if (this.value){
+		document.getElementById('secondarySort').disabled = false;
+	} else {
+		document.getElementById('secondarySort').disabled = true;
+	}
+});
+
+//Functions
+
+// Function to get data from firebase and stores it in an array
+function queryData() {
+	userDataCollection.get().then((querySnapshot) => {
+			querySnapshot.forEach((doc) => {
+				// Push each document's data into the array
+				userData.push(doc.data());
+			});
+			// Log the array to confirm data is stored
+			console.log(userData);
+			createDataRow(userData);
+		})
+		.catch((error) => {
+			console.log("Error getting documents: ", error);
+		});
+}
 
 function compareAlphabetically(a, b) {
     return a.localeCompare(b);
@@ -57,33 +162,49 @@ function compareNumerically(a, b) {
     return Number(a) - Number(b);
 }
 
+function compareEstimates(a, b){
 
-function sortData(querySnapshot, primarySort, secondarySort) {
-    let sortedArray = querySnapshot.docs.sort((a, b) => {
-        let aData = a.data();
-		let bData = b.data();
+}
+
+function compareByField(a, b, field) {
+	
+	switch(field){
+		case 'tideEst':
+			return compareNumerically(tideMapping[a[field]], tideMapping[b[field]]);
+		case 'weatherEst':
+			return compareNumerically(weatherMapping[a[field]], weatherMapping[b[field]]);
+		case 'waterSurf':
+			return compareNumerically(surfMapping[a[field]], surfMapping[b[field]]);
+		case 'windSpeed':
+			return compareNumerically(windSpeedMapping[a[field]], windSpeedMapping[b[field]]);
+		case 'windDir':
+			return compareNumerically(windDirMapping[a[field]], windDirMapping[b[field]]);
+		case 'rainfall':
+			return compareNumerically(rainMapping[a[field]], rainMapping[b[field]]);
+		default:
+			if (typeof a[field] === 'string') {
+				return compareAlphabetically(a[field], b[field]);
+			} else if (typeof a[field] === 'boolean') {
+				return compareBoolean(a[field], b[field]);
+			} else {
+				return compareNumerically(a[field], b[field]);
+			}
+	}
+}
+
+function sortData(data, primarySort, secondarySort) {
+	
+	let sortedArray = data.sort((a, b) => {
 		
-		let primaryCompare;
-		switch (primarySort){
-			case 'userName':
-			case 'userSite':
-			case 'glassbottle':
-				primaryCompare = compareAlphabetically(aData[primarySort], bData[primarySort]);
-				break;
-			case 'bottomedOut':
-			case 'usedTube':
-				primaryCompare = compareBoolean(aData[primarySort], bData[primarySort]);
-				break;
-			case 'waterDepth':
-			case 'waterTempAvg':
-			case 'airTempAvg':
-			case 'secchiDepthAvg':
-				primaryCompare = compareNumerically(aData[primarySort], bData[primarySort]);
-				break;
-		}
+		let primaryCompare = compareByField(a, b, primarySort);
 
-        if (primaryCompare !== 0 || !secondarySort) return primaryCompare;
-		return a.data()[secondarySort].localeCompare(b.data()[secondarySort]);		
+        if (primaryCompare !== 0 || !secondarySort) {
+			return primaryCompare;
+		}
+		if (primaryCompare === 0 && secondarySort) {
+            return compareByField(a, b, secondarySort);
+        }
+
     });
 
 	console.log("Sorted Array: ", sortedArray);
@@ -98,75 +219,52 @@ function clearExistingData() {
     }
 }
 
-function createDataRow() {
+function createDataRow(dataArray) {
 	console.log("createDataRow called");
+	clearExistingData();
+	dataArray.forEach((doc) => {
+        // Assuming 'doc' is an object with your data, similar to what Firebase would return
+        const data = doc; // If 'doc' is already your data object, no need to call 'doc.data()'
 
-    // Reference to the "UserData" collection
-    const userDataCollection = db.collection("UserData");
+        // Create a new row element
+        const newRow = document.createElement("div");
+        newRow.classList.add("row");
 
-	// Get Sort Options
-	let primarySort = document.getElementById('primarySort').value;
-    let secondarySort = document.getElementById('secondarySort').value;
+        // Loop to generate blocks for data
+        const dataFields = [
+            data.userName,
+            data.date,
+            data.userSite,
+            data.tideEst,
+            data.weathEst,
+            data.waterSurf,
+            data.windSpeed,
+            data.windDir,
+            data.rainfall,
+            data.waterDepth,
+            data.sampleDist,
+            data.airTempAvg,
+            data.waterTempAvg,
+            data.secchiAvg,
+            data.bottomedOut,
+            data.usedTube,
+            data.pbottle,
+            data.glassbottle,
+            data.comments
+        ];
 
-	console.log("Sorting by: ", primarySort, secondarySort); // For debugging
+        for (let i = 0; i < dataFields.length; i++) {
+            const block = document.createElement("div");
+            block.classList.add("block");
+            block.innerText = dataFields[i];
+            newRow.appendChild(block);
+        }
 
-    // Query the collection to get the data
-    userDataCollection.get().then((querySnapshot) => {
-        console.log("Data fetched:", querySnapshot.docs.length); // Check if data is fetched
-		
-		// Sort the data based on the selected options
-        let sortedData = sortData(querySnapshot, primarySort, secondarySort);
-
-		
-		sortedData.forEach((doc) => {
-            // Get the data from the document
-            const data = doc.data();
-
-            // Create a new row element
-            const newRow = document.createElement("div");
-            newRow.classList.add("row");
-
-            // Loop to generate blocks for data
-            const dataFields = [
-                data.userName,
-                data.date,
-                data.userSite,
-                data.tideEst,
-                data.weathEst,
-                data.waterSurf,
-                data.windSpeed,
-                data.windDir,
-                data.rainfall,
-                data.waterDepth,
-                data.sampleDist,
-                data.airTempAvg,
-                data.waterTempAvg,
-                data.secchiAvg,
-				data.bottomedOut,
-				data.usedTube,
-				data.pbottle,
-				data.glassbottle,
-				data.comments
-            ];
-
-            for (let i = 0; i < dataFields.length; i++) {
-                const block = document.createElement("div");
-                block.classList.add("block");
-                block.innerText = dataFields[i];
-                newRow.appendChild(block);
-            }
-
-            // Append the new data row to the main container
-            const mainContainer = document.getElementById("datamaincontainer");
-            mainContainer.appendChild(newRow);
-        });
-    });
+        // Append the new data row to the main container
+        const mainContainer = document.getElementById("dataRowsContainer");
+        mainContainer.appendChild(newRow);
+	});
 }
-
-document.getElementById('sortButton').addEventListener('click', function() {
-    clearExistingData(); // Clear the existing data
-    createDataRow(); // Then populate with sorted data
-});
 
 function createHeaderRow() {
 	const headers = [
@@ -204,61 +302,12 @@ function createHeaderRow() {
 	}
 
 	// Append the header row to the main container
-	const mainContainer = document.getElementById("datamaincontainer");
+	const mainContainer = document.getElementById("headerContainer");
 	mainContainer.appendChild(headerRow);
 }
+
 function setRandomBackColor(element) {
 	const randomColor =
 		galaxyColors[Math.floor(Math.random() * neonColors.length)];
 	element.style.backgroundColor = randomColor;
 }
-
-//onLoad
-
-window.addEventListener("load", () => {
-	setInterval(() => {
-		setRandomBackColor(document.body);
-	}, 10000);
-});
-// Call the functions
-createHeaderRow();
-createDataRow();
-
-
-// Reference to the "UserData" collection
-const userDataCollection = db.collection("UserData");
-
-// Query the collection to get the data
-userDataCollection.get().then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-        // Get the data from the document
-        const data = doc.data();
-
-        // Populate HTML elements with the data
-        document.getElementById("userName").textContent = data.userName;
-		if (userNameElement) {
-			userNameElement.textContent = data.userName;
-		}
-        document.getElementById("userSite").textContent = data.userSite;
-        document.getElementById("airTempAvg").textContent = data.airTempAvg;
-		document.getElementById("bottomedOut").textContent = data.bottomedOut;
-		document.getElementById("date").textContent = data.date;
-		document.getElementById("glassbottle").textContent = data.glassbottle;
-		document.getElementById("pbottle").textContent = data.pbottle;
-		document.getElementById("rainfall").textContent = data.rainfall;
-		document.getElementById("sampleDist").textContent = data.sampleDist;
-		document.getElementById("secchiAvg").textContent = data.secchiAvg;
-		document.getElementById("tideEst").textContent = data.tideEst;
-		document.getElementById("usedTube").textContent = data.usedTube;
-		document.getElementById("userName").textContent = data.userName;
-		document.getElementById("userID").textContent = data.userID;
-		document.getElementById("userSite").textContent = data.userSite;
-		document.getElementById("waterDepth").textContent = data.waterDepth;
-		document.getElementById("waterSurf").textContent = data.waterSurf;
-		document.getElementById("waterTempAvg").textContent = data.waterTempAvg;
-		document.getElementById("weathEst").textContent = data.weathEst;
-		document.getElementById("windDir").textContent = data.windDir;
-		document.getElementById("windSpeed").textContent = data.windSpeed;
-	});
-});
-
