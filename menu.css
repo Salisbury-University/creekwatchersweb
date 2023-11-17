@@ -81,7 +81,7 @@ body{
     z-index: 1; /* Places it above the tiles but below other content */
 }
 .mainTitle {
-    cursor: pointer;
+    cursor: default;
     box-sizing: border-box;
     text-shadow: 0px 5px 4px black;
     left: 10vw;
@@ -204,14 +204,6 @@ body{
 }
 
 
-.settingsBtn:hover {
-    transform: scale(1.2);
-}
-
-.settingsBtn:active {
-    transform: scale(1.2) translateY(4px);
-}
-
 .settingsBtn {
     cursor: pointer;
     width: calc(4vh + 2vw);
@@ -223,56 +215,76 @@ body{
     background-image: url("assets/imgs/settings.png");
     -webkit-filter: invert(100%);
     filter: invert(100%);
-    transition: transform 0.15s;
+    transition: transform 0.15s;  
 }
+  
+.settingsBtn:hover {
+    transform: scale(1.2);
+}
+
+.settingsBtn:active {
+    transition: transform 0.3s;
+    transform: scale(1.2) translateY(4px) rotate(360deg);
+}
+
 
 .popup {
     display: none;
     position: fixed;
-    background-color: rgb(4, 4, 127);
+    background-color: rgb(27, 33, 113);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    align-items: stretch;
 	width: 200px;
     height: 150px;
     z-index: 100000;
     top: 2vh;
     right: 2vh; 
+    border: 2px; /* Add border style */
     border-radius: 10px;
+    overflow: hidden;
+
     
 }
 .popup-button1,.popup-button2 {
-    width: 100%;
+    width: 100%; /* Make the buttons take up 100% of the width */
+    height: 50%;
     flex: 1;
     cursor: pointer;
     box-sizing: border-box;
     text-shadow: 0px 5px 4px black;
     display: flex;
-    justify-content: left;
-    padding-left: 1.5vh;
+    justify-content: center;
     align-items: center;
     background: transparent;
     z-index: 2;
-    font-size: 1.5em;
+    font-size: 1.25em;
     color: white; 
     font-family: 'quicksand';
     overflow: hidden;
+    outline: none;
+    box-shadow: none;
+    border: 0;
+}
+.popup-button1{
+    justify-content: left;
+    padding-inline-start: 15px;
+    position: relative; 
 }
 
 .addUserImg {
 	/* background-image: url("assets/imgs/addUser.svg"); */
 	cursor: pointer; 
     z-index: 100000;
-    position: fixed;
-	width: 60px; /* Adjust the width as needed */
-	height: 60px; /* Adjust the height as needed */
-	top: 5.25%;
-	right: 4.25%;
+    position: absolute;
+	width: 40px; /* Adjust the width as needed */
+	height: 40px; /* Adjust the height as needed */
+	top: 25%; /* Adjust as needed */
+    left: 85%; /* Adjust as needed */
+    transform: translate(-50%, -50%);
 	-webkit-filter: invert(100%); /* Safari/Chrome */
     filter: invert(100%);
     pointer-events: none;
-
 }
-
 
 .popup-button1:hover,
 .popup-button2:hover {

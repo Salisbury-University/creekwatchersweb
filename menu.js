@@ -1,7 +1,7 @@
 const tileContainer = document.getElementById("tileContainer");
 const homeBtn = document.getElementById("homebtn");
 const panel3 = document.getElementById("panel3"),
-	panel4 = document.getElementById("panel4");
+	  panel4 = document.getElementById("panel4");
 const colorSchemeOcean = [
 	"#00BFFF",
 	"#1E90FF",
@@ -126,14 +126,59 @@ window.addEventListener("load", () => {
 	});
 });
 
+function changePassword(){
+	var auth = firebase.auth();
+	var user = auth.currentUser;
+
+	if (user) {
+		var newPassword = prompt("Enter your new password:");
+		user.updatePassword(newPassword).then(function () {
+			console.log("Password updated successfully");
+			alert("Password changed successfully!");
+	}).catch(function (error) {
+		console.error("Error updating password:", error.message);
+		switch (error.code) {
+			case "auth/weak-password":
+			  alert("The password is too weak. Please choose a stronger password.");
+			  break;
+			case "auth/requires-recent-login":
+			  alert("For security reasons, you need to re-authenticate before changing the password. Please log in again.");
+			  break;
+			default:
+			  alert("Password change error.");
+		  }
+	});
+	} else {
+	console.log("No user is signed in.");
+	}
+}
+
+
+let disableHoverEffect = false;
+function rotateSettingsBtn() {
+	var settingsBtn = document.getElementById('settingsbtn');
+	const popup = document.getElementById("popup1");
+	disableHoverEffect = true;
+	settingsBtn.classList.add('disable-hover');
+	settingsBtn.classList.add('rotate');
+  
+	// Add a delay before showing the popup (1000ms = 1 second)
+	setTimeout(function() {
+		popup.style.display = "block";
+		settingsBtn.classList.remove('rotate'); // Remove the rotate class after the animation
+		disableHoverEffect = false;
+		settingsBtn.classList.remove('disable-hover');
+	}, 150);
+}
 
 document.addEventListener("DOMContentLoaded", function () {
     const settingsBtn = document.getElementById("settingsbtn");
     const popup = document.getElementById("popup1");
 	const popBtn1 = document.getElementById("popbtn1");
+	const popBtn2 = document.getElementById("popbtn2");
     
 	settingsBtn.addEventListener("click", function () {
-        popup.style.display = "block";
+		rotateSettingsBtn();
     });
 	
 	popup.addEventListener("mouseover", function () {
@@ -152,5 +197,8 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.href = "/register.html";
     });
 
+	popBtn2.addEventListener("click", function () {
+		changePassword();
+    });
 
 });

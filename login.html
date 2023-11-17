@@ -30,15 +30,17 @@
             <button id="forgotButton">Forgot Password</button>
         </div>
     </div>
-    <div class="forgotPopup" id="forgotPopup">
-        <div class="resetHeader">Reset Password</div>
-        <div class="error-message2"></div>
-        <div class="label-input-group2">
-            <label id = "emaillabel" for="email">Email:</label>
-            <input type="text" id="email" name="email" placeholder="Enter your email">
+    <div class="popupContainer">
+        <div class="forgotPopup"id="forgotPopup">
+            <div class="resetHeader">Reset Password</div>
+            <div class="error-message2">Message</div>
+            <div class="label-input-group2">
+                <label id = "emaillabel" for="email">Email:</label>
+                <input type="text" id="email" name="email" placeholder="Enter your email">
+            </div>
+            <button id = "resetSubmit" onclick="handleForgotPassword()">Submit</button>
+            <button id= "closeReset" onclick="closeForgotPopup()">Back</button>
         </div>
-        <button onclick="handleForgotPassword()">Reset Password</button>
-        <button onclick="closeForgotPopup()">Close</button>
     </div>
     <script>
         const firebaseConfig = {

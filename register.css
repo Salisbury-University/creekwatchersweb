@@ -86,7 +86,7 @@ body {
     z-index: 1; /* Places it above the tiles but below other content */
 }
 .mainTitle {
-    cursor: pointer;
+    cursor: default;
     box-sizing: border-box;
     text-shadow: 0px 5px 4px black;
     left: 10vw;
@@ -97,28 +97,12 @@ body {
     justify-content: center;
     align-items: center;
     background: transparent;
-    z-index: 2; /* To ensure it sits above the blurred background */
-    font-size: 5em; /* Adjust font size as required */
+    z-index: 5; /* To ensure it sits above the blurred background */
+    font-size: 4em; /* Adjust font size as required */
     color: white; /* You can adjust this as needed */
     font-family: 'quicksand';
 }
-.error-message {
-    cursor: pointer;
-    box-sizing: border-box;
-    text-shadow: 0px 5px 4px black;
-    left: 10vw;
-    position: absolute;
-    width: 80vw; /* 60% of viewport width */
-    height: 55vh; /* 60% of viewport height */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: transparent;
-    z-index: 2; /* To ensure it sits above the blurred background */
-    font-size: 1.5em; /* Adjust font size as required */
-    color: red; /* You can adjust this as needed */
-    font-family: 'quicksand';
-}
+
 .mainContent {
     display: flex;
 	flex-direction: column;
@@ -141,7 +125,22 @@ body {
     font-family: 'quicksand';
     
 }
-
+.error-message {
+    cursor: pointer;
+    box-sizing: border-box;
+    text-shadow: 0px 5px 4px black;
+    top: 12vh;
+    position: absolute;
+    width: 80vw; /* 60% of viewport width */
+    height: 55vh; /* 60% of viewport height */
+    display: flex;
+    justify-content: center;
+    background: transparent;
+    z-index: 2; /* To ensure it sits above the blurred background */
+    font-size: 1em; /* Adjust font size as required */
+    color: red; /* You can adjust this as needed */
+    font-family: 'quicksand';
+}
 
 /* Add these styles to display the labels and input boxes horizontally */
 .label-input-group {
@@ -152,13 +151,13 @@ body {
     width: 100%;
     box-sizing: border-box;
     margin-bottom: 30px; /* Add some spacing between label-input groups */
-	
     text-shadow: 0px 1px 4px black;
-
+    box-shadow: 0px 1px 10px 1px black, inset 0px 1px 10px 1px black;
     z-index: 3;
     height: 10vh;
-    width: 50vh;
-    font-size: 1.5em;
+    width: 70%;
+    max-width: 60vh;
+    font-size: 1.25em;
     letter-spacing: 2px;
     border: 2px solid white;
     border-radius: 10px;
@@ -173,7 +172,7 @@ body {
 
 label {
     text-align: left;
-    margin-right: 15px; /* Add some spacing between label and input box */
+    margin-right: 10px; /* Add some spacing between label and input box */
     margin-left: 15px; /* Add some spacing between label and input box */
     margin-bottom: 15px;
     margin-top: 10px;
@@ -182,10 +181,17 @@ label {
 #username,
 #password {
     font-family: 'quicksand';
-    width: 50%; /* Adjust the width as needed */
+    width: 52%; /* Adjust the width as needed */
     box-sizing: border-box;
     padding: 8px;
+    padding-left: 8px;
+    font-size: 0.5em;
+    height: 40%;
     
+}
+#password{
+    margin-left: 4px;
+    width: 53%;
 }
 
 #loginButton {
@@ -199,7 +205,7 @@ label {
     left: calc(50vw - 10vh); /* Center the login button horizontally */
     height: 10vh;
     width: 20vh;
-    font-size: 1.5em;
+    font-size: 1.2em;
     letter-spacing: 2px;
     border: 2px solid white;
     border-radius: 10px;
@@ -221,10 +227,10 @@ label {
 /* Home button styles */
 .homeBtn {
     cursor: pointer;
-    width: calc(5vh + 3vw);
-    height: calc(5vh + 3vw);
-    z-index: 100000;
-    position: fixed;
+    width: 80px;
+    height: 80px;
+    z-index: 4;
+    position: absolute;
     top: 2vh; /* Adjust the top position for the home button */
     left: 2vh; /* Adjust the left position for the home button */
     background-image: url("assets/imgs/home-button-icon.svg");

@@ -4,6 +4,7 @@ const loginBtn = document.getElementById("loginButton");
 const forgotBtn = document.getElementById("forgotButton");
 const passwordInput = document.getElementById("password");
 const usernameInput = document.getElementById("username");
+const emailInput = document.getElementById("email");
 
 setUserLoggedInStatus(false);
 
@@ -128,8 +129,11 @@ const auth = firebase.auth();
 
 function openForgotPopup() {
 	console.log("Opening popup window...");
-	document.getElementById('forgotPopup').style.display = 'block';
+	document.getElementById('forgotPopup').style.display = 'flex';
 	document.getElementById('mainContent').style.display = 'none';
+	
+	document.getElementsByClassName('error-message2')[0].style.color = "white";
+	document.getElementsByClassName('error-message2')[0].innerText = "Enter email for password reset";
 }
 
 function closeForgotPopup() {
@@ -137,18 +141,38 @@ function closeForgotPopup() {
   document.getElementById('mainContent').style.display = '';
 }
 
-function handleForgotPassword() {
-  const email = document.getElementById('forgotemail').value;
 
-  auth.sendPasswordResetEmail(email)
+function handleForgotPassword() {
+	const email = document.getElementById('email').value;
+	
+	auth.sendPasswordResetEmail(email)
 	.then(() => {
-	  console.log('Password reset email sent');
-	  alert('Password reset email sent. Check your inbox.');
-	  closeForgotPopup();
+		console.log('Password reset email sent');
+		document.getElementsByClassName('error-message2')[0].style.color = "green";
+		document.getElementsByClassName('error-message2')[0].innerText = "Reset email sent. Please check your email";
 	})
 	.catch((error) => {
-	  console.error(error.message);
-	  alert('Error: ' + error.message);
+		console.error(error.message);
+		document.getElementsByClassName('error-message2')[0].style.color = "red";
+		var errorMessage = "";
+		switch (error.code) {
+			case 'auth/invalid-email':
+				errorMessage = 'Invalid email address.';
+			  	break;
+			case 'auth/user-not-found':
+				errorMessage = 'User with this email address does not exist.';
+			  	break;
+			case 'auth/user-disabled':
+				errorMessage = 'User account is disabled.';
+			  	break;
+			case 'auth/too-many-requests':
+				errorMessage = 'Too many requests. Please try again later.';
+			  	break;
+			default:
+				errorMessage = 'Error sending password reset email.';
+			  	break;
+		  }
+		  document.getElementsByClassName('error-message2')[0].innerText = errorMessage;
 	});
 }
 
@@ -189,5 +213,13 @@ window.addEventListener("load", () => {
 		loginUser();
 	}
 	});
+
+	emailInput.addEventListener("keydown", function (event) {
+		// Check if the pressed key is Enter (key code 13)
+		if (event.keyCode === 13) {
+			// Call your function here
+			handleForgotPassword();
+		}
+		});
 
 });

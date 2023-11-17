@@ -129,7 +129,7 @@ body {
     cursor: default;
     box-sizing: border-box;
     text-shadow: 0px 5px 4px black;
-    top: 11vh;
+    top: 9vh;
     position: absolute;
     width: 80vw; /* 60% of viewport width */
     height: 55vh; /* 60% of viewport height */
@@ -280,19 +280,28 @@ label {
     transform: scale(1.2) translateY(4px);
 }
 
-
-#forgotPopup {
+.popupContainer {
+    /* display: none; */
+    box-sizing: border-box;
+    overflow: hidden;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
     display: flex;
+}
+
+.forgotPopup {
 	flex-direction: column;
     display: none;
     transition: opacity 1s; /* For fading effect */
     box-sizing: border-box;
     text-shadow: 0px 5px 4px black;
     left: 5vw;
-    top: 15%;
+    top: 7%;
     position: absolute;
     width: 90vw; /* 60% of viewport width */
     height: 80vh; /* 60% of viewport height */
+    
     justify-content: center;
     align-items: center;
     background: transparent;
@@ -314,23 +323,22 @@ label {
     font-size: 1.5em; /* Adjust font size as required */
     color: white; /* You can adjust this as needed */
     font-family: 'quicksand';
+    margin-bottom: 66px;
 }
 
 .error-message2 {
     cursor: default;
     box-sizing: border-box;
     text-shadow: 0px 5px 4px black;
-    top: 11vh;
-    position: absolute;
-    width: 80vw; /* 60% of viewport width */
-    height: 55vh; /* 60% of viewport height */
+   /* 60% of viewport height */
     display: flex;
     justify-content: center;
     background: transparent;
     z-index: 2; /* To ensure it sits above the blurred background */
-    font-size: 1.25em; /* Adjust font size as required */
+    font-size: 1em; /* Adjust font size as required */
     color: red; /* You can adjust this as needed */
     font-family: 'quicksand';
+    margin-bottom: 20px;
 }
 
 .label-input-group2 {
@@ -366,11 +374,71 @@ label {
 
 #email {
     font-family: 'quicksand';
-    width: 52%; /* Adjust the width as needed */
+    width: 68%; /* Adjust the width as needed */
     box-sizing: border-box;
     padding: 8px;
     padding-left: 8px;
     font-size: 0.5em;
     height: 35%;
     
+}
+
+#resetSubmit{
+    font-family: 'quicksand';
+    text-shadow: 0px 1px 4px black;
+    box-shadow: 0px 1px 10px 1px black, inset 0px 1px 10px 1px black;
+    background-color: transparent;
+    /* position: absolute; */
+    z-index: 3;
+    /* top: 65vh; Adjust the top position to place it in the middle */
+    left: calc(50vw - 10vh); /* Center the login button horizontally */
+    height: 10vh;
+    width: 22vh;
+    font-size: 1.5em;
+    letter-spacing: 2px;
+    border: 2px solid white;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    transition: opacity 1s, transform 0.4s; /* For fading effect */
+    margin-top: 15px;
+    margin-bottom: 40px;
+
+}
+
+#resetSubmit:hover {
+    transform: scale(1.35);
+}
+
+#resetSubmit:active {
+    transform: scale(1.25) translateY(4px);
+}
+
+#closeReset {
+    font-family: 'quicksand';
+    text-shadow: 0px 1px 4px black;
+    box-shadow: 0px 1px 10px 1px black, inset 0px 1px 10px 1px black;
+    background-color: transparent;
+    /* position: absolute; */
+    z-index: 3;
+    /* top: 65vh; Adjust the top position to place it in the middle */
+    left: calc(50vw - 10vh); /* Center the login button horizontally */
+    height: 6vh;
+    width: 22vh;
+    font-size: 1em;
+    letter-spacing: 2px;
+    border: 2px solid white;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    transition: opacity 1s, transform 0.4s; /* For fading effect */
+}
+
+#closeReset:hover {
+    transform: scale(1.35);
+}
+
+#closeReset:active {
+    transition: opacity 1s, transform 0.25s;
+    transform: scale(1.25);
 }

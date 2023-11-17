@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="register.css" />
+    <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
     <script src="auth.js" defer></script>
     <script src="register.js" defer></script>
     <meta charset="UTF-8" />
@@ -9,12 +12,12 @@
     <title>Creek Watchers - Register</title>
 </head>
 <body>
-    <div class="homeBtn" id="homebtn"></div>
     <div class="container" id="tileContainer"></div>
     <div class="mainContainer">
+        <div class="homeBtn" id="homebtn"></div>
         <div class="mainTitle">Register User</div>
-        <div class="error-message"></div>
         <div class="mainContent" id="mainContent">
+            <div class="error-message"></div>
             <div class="label-input-group">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" placeholder="Enter your username">
@@ -26,11 +29,7 @@
             <button id="loginButton">Register</button>
         </div>
     </div>
-    <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
     <script>
-        // Your Firebase configuration (initialize it here)
         const firebaseConfig = {
             apiKey: "AIzaSyD1n52beNmzhLyqtv29Exw8CIEzde40LOo",
             authDomain: "creekwatchers-88ce2.firebaseapp.com",
@@ -40,11 +39,7 @@
             messagingSenderId: "799020915481",
             appId: "1:799020915481:web:e0ac620892635e99760388",
         };
-
-        // Initialize Firebasee
         firebase.initializeApp(firebaseConfig);
-
-        // Reference to the Firestore database
         const db = firebase.firestore();
     </script>
 </body>
