@@ -237,7 +237,7 @@ label {
     z-index: 3;
     /* top: 65vh; Adjust the top position to place it in the middle */
     left: calc(50vw - 10vh); /* Center the login button horizontally */
-    height: 6vh;
+    height: 10vh;
     width: 22vh;
     font-size: 0.7em;
     letter-spacing: 2px;
