@@ -15,15 +15,18 @@ firebase.initializeApp(firebaseConfig);
 // Reference to the Firestore database
 const db = firebase.firestore();
 const userDataCollection = db.collection("UserData");
-
-console.log(userDataCollection);
 // Query
 let homeBtn = document.getElementById("graphhomebtn");
 const confirmBtn = document.getElementById("confirmBtn");
 // Varriables
 let allDropsSelected = false;
+
 const timeframeDropdown = document.getElementById("datesMenu");
-let selectedWeek, selectedMonth, selectedYear;
+let selectedMeasurement,
+	selectedSite,
+	selectedWeek,
+	selectedMonth,
+	selectedYear;
 let databaseData = [],
 	filteredDatabaseData = [];
 queryData();
@@ -39,8 +42,6 @@ function queryData() {
 				// Push each document's data into the array
 				databaseData.push(doc.data());
 			});
-			// Log the array to confirm data is stored
-			console.log(databaseData);
 		})
 		.catch((error) => {
 			console.log("Error getting documents: ", error);
@@ -60,7 +61,6 @@ function filterDataBySelection() {
 		"November",
 	];
 	const monthNumber = monthNames.indexOf(selectedMonth); // 0-11
-	console.log(databaseData);
 	// Filter based on the selected time frame
 	let filteredData = databaseData.filter((data) => {
 		// Assuming each data entry has a 'date' field in the format "yyyy-mm-dd"
@@ -89,9 +89,6 @@ function filterDataBySelection() {
 	});
 
 	// Process the filtered data as needed
-	console.log("Filtered: ");
-	console.log(filteredData);
-	console.log(filteredData);
 	return filteredData;
 }
 function updateSelectionsContainer(selectionsList, menu, preStr, boolindex) {
@@ -117,8 +114,9 @@ function updateSelectionsContainer(selectionsList, menu, preStr, boolindex) {
 			container.style.left = "-100%";
 			container.style.opacity = "0%";
 			menu.textContent = preStr + String(selectionText);
+			if (boolindex == 0) selectedMeasurement = selectionText;
+			if (boolindex == 1) selectedSite = selectionText;
 			menu.appendChild(selectIcon);
-			let testInd = 3;
 			let listStr = [" "];
 			let selectSwitchStr;
 			// Checks to see if the option selected is actually changing the time frame, if it is
@@ -134,7 +132,6 @@ function updateSelectionsContainer(selectionsList, menu, preStr, boolindex) {
 			} else {
 				selectSwitchStr = curTimeSpan;
 			}
-			console.log(selectSwitchStr);
 			switch (selectSwitchStr) {
 				// case "Weekly":
 				// 	curTimeSpan = "Weekly";
@@ -164,12 +161,6 @@ function updateSelectionsContainer(selectionsList, menu, preStr, boolindex) {
 				default:
 					break;
 			}
-			myDataSet = [
-				[10, 30, 20, 20, 10, 40, 10, 25, 30, 40],
-				[7, 4, 12, 1],
-				[2, 6, 8, 2, 12, 10, 2, 2, 6, 8, 4, 4],
-				[5, 10, 15],
-			];
 			// Call the new function to show the popup based on the timeframe
 			if (
 				// selectionText === "Weekly" ||
@@ -180,8 +171,10 @@ function updateSelectionsContainer(selectionsList, menu, preStr, boolindex) {
 			}
 			dropDowns[boolindex] = true;
 			checkAllDropdownsSelected();
+			filteredDatabaseData = filterDataBySelection();
+			// Re-plot the graph with the new selections
 			if (allDropsSelected == true) {
-				plotSelectedGraph(myDataSe	t, testInd, listStr);
+				plotSelectedGraph(filteredDatabaseData, determineTestIndex(), listStr);
 			}
 		});
 		container.appendChild(selection);
@@ -233,18 +226,36 @@ function determineTestIndex() {
 		// case "Weekly":
 		// 	return 0;
 		case "Monthly":
-			return 1;
+			return 0;
 		case "Yearly":
-			return 2;
+			return 1;
 		default:
 			return -1; // Default or error case
 	}
 }
+function getDatabaseFieldName(selectedMeasurement) {
+	// Mapping of menu items to database field names
+	const measurementMapping = {
+		Tide: "tideEst",
+		Water: "waterSurf",
+		Weather: "weathEst",
+		"Wind Speed": "windSpeed",
+		"Wind Direction": "windDir",
+		Rain: "rainfall",
+		"Water Depth": "waterDepth",
+		"Sample Distance": "sampleDist",
+		"Air Temperature": "airTempAvg",
+		"Water Temperature": "waterTempAvg",
+		"Secchi Depth": "secchiAvg",
+	};
+
+	// Return the corresponding database field name
+	return measurementMapping[selectedMeasurement] || null;
+}
+
 function updateListStrForGraph() {
 	// Ensure selectedMonth is converted to month number correctly
 	const monthNames = [
-		"January",
-		"February",
 		"March",
 		"April",
 		"May",
@@ -254,7 +265,6 @@ function updateListStrForGraph() {
 		"September",
 		"October",
 		"November",
-		"December",
 	];
 	const monthNumber = monthNames.indexOf(selectedMonth) + 1; // Month number (1-12)
 	const daysInMonth = getDaysInMonth(monthNumber, selectedYear);
@@ -306,11 +316,12 @@ confirmBtn.addEventListener("click", () => {
 
 	// Update listStr based on selectedWeek and selectedMonth
 	updateListStrForGraph();
-
-	// Re-plot the graph with the new selections
-	if (allDropsSelected == true)
-		plotSelectedGraph(myDataSet, determineTestIndex(), listStr);
 	filteredDatabaseData = filterDataBySelection();
+	// Re-plot the graph with the new selections
+	if (allDropsSelected == true) {
+		plotSelectedGraph(filteredDatabaseData, determineTestIndex(), listStr);
+	}
+
 	// Close the popup after updating the graph
 	closePopup();
 });
@@ -363,11 +374,8 @@ function storeSelections() {
 	selectedWeek = document.getElementById("weekDropdown").index;
 	selectedMonth = document.getElementById("monthDropdown").value;
 	selectedYear = document.getElementById("yearDropdown").value;
-	// Here you can use these values as needed
-	console.log(selectedWeek, selectedMonth, selectedYear);
 }
 function checkAllDropdownsSelected() {
-	console.log(dropDowns);
 	for (const isSelected of dropDowns) {
 		if (!isSelected) {
 			return; // if any dropdown is not selected, exit the function early
@@ -439,49 +447,74 @@ function cumulativeMovingAverage(array) {
 		return sum / (index + 1);
 	});
 }
+function parseDate(dateString) {
+	if (dateString.includes("-")) {
+		return new Date(dateString);
+	} else {
+		const parts = dateString.split("/");
+		return new Date(parts[2], parts[0] - 1, parts[1]);
+	}
+}
+
+function averageDataByMonth(data, selectedYear) {
+	const monthlyData = {};
+	for (let month = 3; month <= 11; month++) {
+		monthlyData[month] = { sum: 0, count: 0 };
+	}
+
+	data.forEach((item) => {
+		const date = parseDate(item.date);
+		if (date.getFullYear() === selectedYear) {
+			const month = date.getMonth() + 1;
+			if (month >= 3 && month <= 11) {
+				monthlyData[month].sum += item.value;
+				monthlyData[month].count += 1;
+			}
+		}
+	});
+
+	const monthlyAverages = {};
+	Object.keys(monthlyData).forEach((month) => {
+		if (monthlyData[month].count > 0) {
+			monthlyAverages[month] =
+				monthlyData[month].sum / monthlyData[month].count;
+		} else {
+			monthlyAverages[month] = 0;
+		}
+	});
+}
 function plotSelectedGraph(lists, index, listStr) {
-	if (index < 0 || index >= lists.length) {
-		console.error("Invalid index provided:", index);
+	console.log("in plot: " + lists[0].airTemp1);
+
+	const dbFieldName = getDatabaseFieldName(selectedMeasurement);
+	if (!dbFieldName) {
+		console.error("Invalid measurement selected:", selectedMeasurement);
 		return;
 	}
 
-	const selectedList = lists[index];
-	if (!Array.isArray(selectedList)) {
-		console.error("No list found at index:", index);
+	console.log(dbFieldName);
+
+	// Filter the data to get a list of values for the selected measurement
+	// Filter the data based on the selected site and measurement
+	const filteredValList = lists
+		.filter(
+			(data) =>
+				data.userSite &&
+				data.userSite.toLowerCase() === selectedSite.toLowerCase()
+		) // Filter by site name
+		.map((data) => data[dbFieldName]) // Extract values for the selected measurement
+		.filter((val) => val !== null && val !== undefined && val !== ""); // Further filter out invalid values
+
+	if (filteredValList.length === 0) {
+		console.error(
+			"No data available for the selected measurement:",
+			selectedMeasurement
+		);
 		return;
 	}
-
-	const dataValues = filteredData.map(data => {
-        // Assuming 'data' has a 'value' field
-        return data.value;
-    });
-
-	const plotStrList = filteredData.map(data => {
-        // Assuming 'data' has a 'time' field
-        return data.time;
-    });
-
-	// Adjust listStr based on selectedWeek and selectedMonth
-	// if (curTimeSpan === "Weekly") {
-	// 	// Convert month name to month number
-	// 	const monthNumber =
-	// 		new Date(Date.parse(selectedMonth + " 1, 2022")).getMonth() + 1;
-	// 	const daysInMonth = getDaysInMonth(monthNumber, selectedYear);
-
-	// 	let startDay = selectedWeek * 7 + 1;
-	// 	let endDay = startDay + 6;
-	// 	if (selectedWeek === 3) {
-	// 		// If it's the last week selection
-	// 		endDay = daysInMonth;
-	// 	}
-
-	// 	listStr = [];
-	// 	for (let day = startDay; day <= endDay; day++) {
-	// 		listStr.push("Day " + day);
-	// 	}
-	// }
-
-	plotGraphWithAverage(selectedList, listStr, processDropdownMenus());
+	//This list contains all filtered values by measurement type
+	console.log(filteredValList);
+	plotGraphWithAverage(filteredValList, listStr, processDropdownMenus());
 }
 
 function getDaysInMonth(month, year) {
