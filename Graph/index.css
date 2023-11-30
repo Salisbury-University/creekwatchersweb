@@ -62,7 +62,7 @@ body {
     background: linear-gradient(to bottom, rgb(52, 212, 172),rgb(52, 212, 172),rgb(52, 212, 172),rgba(52, 212, 172, 0.75));
     height: inherit;
     border-left: 1px solid black;
-    font-size: 1.25em;
+    font-size: 1.15em;
     color: black;
     transition: filter 0.3s;
     display: flex;

@@ -49,8 +49,6 @@ function queryData() {
 function filterDataBySelection() {
 	// Convert the selected month to a number
 	const monthNames = [
-		"January",
-		"February",
 		"March",
 		"April",
 		"May",
@@ -60,7 +58,6 @@ function filterDataBySelection() {
 		"September",
 		"October",
 		"November",
-		"December",
 	];
 	const monthNumber = monthNames.indexOf(selectedMonth); // 0-11
 	console.log(databaseData);
@@ -72,14 +69,14 @@ function filterDataBySelection() {
 		let entryMonth = entryDate.getMonth(); // 0-11
 
 		switch (curTimeSpan) {
-			case "Weekly":
-				let weekStart = new Date(
-					selectedYear,
-					monthNumber,
-					selectedWeek * 7 + 1
-				);
-				let weekEnd = new Date(selectedYear, monthNumber, selectedWeek * 7 + 7);
-				return entryDate >= weekStart && entryDate <= weekEnd;
+			// case "Weekly":
+			// 	let weekStart = new Date(
+			// 		selectedYear,
+			// 		monthNumber,
+			// 		selectedWeek * 7 + 1
+			// 	);
+			// 	let weekEnd = new Date(selectedYear, monthNumber, selectedWeek * 7 + 7);
+			// 	return entryDate >= weekStart && entryDate <= weekEnd;
 			case "Monthly":
 				return (
 					entryYear === parseInt(selectedYear) && entryMonth === monthNumber
@@ -93,6 +90,7 @@ function filterDataBySelection() {
 
 	// Process the filtered data as needed
 	console.log("Filtered: ");
+	console.log(filteredData);
 	console.log(filteredData);
 	return filteredData;
 }
@@ -128,12 +126,9 @@ function updateSelectionsContainer(selectionsList, menu, preStr, boolindex) {
 			// timeframe to use for the graph
 			if (
 				(curTimeSpan == " " ||
-					curTimeSpan == "Weekly" ||
 					curTimeSpan == "Monthly" ||
 					curTimeSpan == "Yearly") &&
-				(selectionText == "Weekly" ||
-					selectionText == "Monthly" ||
-					selectionText == "Yearly")
+				(selectionText == "Monthly" || selectionText == "Yearly")
 			) {
 				selectSwitchStr = selectionText;
 			} else {
@@ -141,11 +136,11 @@ function updateSelectionsContainer(selectionsList, menu, preStr, boolindex) {
 			}
 			console.log(selectSwitchStr);
 			switch (selectSwitchStr) {
-				case "Weekly":
-					curTimeSpan = "Weekly";
-					testInd = 0;
-					listStr = ["Day ", "Day ", "Day ", "Day ", "Day ", "Day ", "Day "];
-					break;
+				// case "Weekly":
+				// 	curTimeSpan = "Weekly";
+				// 	testInd = 0;
+				// 	listStr = ["Day ", "Day ", "Day ", "Day ", "Day ", "Day ", "Day "];
+				// 	break;
 				case "Monthly":
 					curTimeSpan = "Monthly";
 					testInd = 1;
@@ -155,8 +150,6 @@ function updateSelectionsContainer(selectionsList, menu, preStr, boolindex) {
 					curTimeSpan = "Yearly";
 					testInd = 2;
 					listStr = [
-						"Jan",
-						"Feb",
 						"Mar",
 						"Apr",
 						"May",
@@ -166,7 +159,6 @@ function updateSelectionsContainer(selectionsList, menu, preStr, boolindex) {
 						"Sep",
 						"Oct",
 						"Nov",
-						"Dec",
 					];
 					break;
 				default:
@@ -180,7 +172,7 @@ function updateSelectionsContainer(selectionsList, menu, preStr, boolindex) {
 			];
 			// Call the new function to show the popup based on the timeframe
 			if (
-				selectionText === "Weekly" ||
+				// selectionText === "Weekly" ||
 				selectionText === "Monthly" ||
 				selectionText === "Yearly"
 			) {
@@ -189,7 +181,7 @@ function updateSelectionsContainer(selectionsList, menu, preStr, boolindex) {
 			dropDowns[boolindex] = true;
 			checkAllDropdownsSelected();
 			if (allDropsSelected == true) {
-				plotSelectedGraph(myDataSet, testInd, listStr);
+				plotSelectedGraph(myDataSe	t, testInd, listStr);
 			}
 		});
 		container.appendChild(selection);
@@ -207,11 +199,12 @@ function showPopupForTimeframe(timeframe) {
 	const yearDropdown = document.getElementById("yearDropdown").parentElement;
 
 	// Show the appropriate dropdowns based on the timeframe
-	if (timeframe === "Weekly") {
-		weekDropdown.style.display = "block";
-		monthDropdown.style.display = "block";
-		yearDropdown.style.display = "block";
-	} else if (timeframe === "Monthly") {
+	// if (timeframe === "Weekly") {
+	// 	weekDropdown.style.display = "block";
+	// 	monthDropdown.style.display = "block";
+	// 	yearDropdown.style.display = "block";
+	// } else
+	if (timeframe === "Monthly") {
 		weekDropdown.style.display = "none"; // Hide week if monthly is selected
 		monthDropdown.style.display = "block";
 		yearDropdown.style.display = "block";
@@ -237,8 +230,8 @@ function closePopup() {
 function determineTestIndex() {
 	// Determine the index based on curTimeSpan
 	switch (curTimeSpan) {
-		case "Weekly":
-			return 0;
+		// case "Weekly":
+		// 	return 0;
 		case "Monthly":
 			return 1;
 		case "Yearly":
@@ -266,22 +259,23 @@ function updateListStrForGraph() {
 	const monthNumber = monthNames.indexOf(selectedMonth) + 1; // Month number (1-12)
 	const daysInMonth = getDaysInMonth(monthNumber, selectedYear);
 
-	if (curTimeSpan === "Weekly") {
-		let startDay = selectedWeek * 7 + 1;
-		let endDay = startDay + 6;
+	// if (curTimeSpan === "Weekly") {
+	// 	let startDay = selectedWeek * 7 + 1;
+	// 	let endDay = startDay + 6;
 
-		// Adjust the endDay for the last week of the month
-		if (selectedWeek === 3) {
-			// If it's the "Days 23+" selection
-			startDay = 23;
-			endDay = daysInMonth; // Use the actual number of days in the month
-		}
+	// 	// Adjust the endDay for the last week of the month
+	// 	if (selectedWeek === 3) {
+	// 		// If it's the "Days 23+" selection
+	// 		startDay = 23;
+	// 		endDay = daysInMonth; // Use the actual number of days in the month
+	// 	}
 
-		listStr = [];
-		for (let day = startDay; day <= endDay; day++) {
-			listStr.push("Day " + day);
-		}
-	} else if (curTimeSpan === "Monthly") {
+	// 	listStr = [];
+	// 	for (let day = startDay; day <= endDay; day++) {
+	// 		listStr.push("Day " + day);
+	// 	}
+	// } else
+	if (curTimeSpan === "Monthly") {
 		// If the selection is monthly, adjust listStr accordingly
 		// This can be left as is, or modified if needed
 		listStr = ["Days 1-7", "Days 8-14", "Days 15-22", "Days 23+"];
@@ -294,11 +288,12 @@ function updateListStrForGraph() {
 
 confirmBtn.addEventListener("click", () => {
 	// Update selections based on the current time span
-	if (curTimeSpan === "Weekly") {
-		selectedWeek = document.getElementById("weekDropdown").selectedIndex;
-		selectedMonth = document.getElementById("monthDropdown").value;
-		selectedYear = document.getElementById("yearDropdown").value;
-	} else if (curTimeSpan === "Monthly") {
+	// if (curTimeSpan === "Weekly") {
+	// 	selectedWeek = document.getElementById("weekDropdown").selectedIndex;
+	// 	selectedMonth = document.getElementById("monthDropdown").value;
+	// 	selectedYear = document.getElementById("yearDropdown").value;
+	// } else
+	if (curTimeSpan === "Monthly") {
 		selectedWeek = null; // Reset week if not in weekly mode
 		selectedMonth = document.getElementById("monthDropdown").value;
 		selectedYear = document.getElementById("yearDropdown").value;
@@ -326,8 +321,6 @@ function populateMonthYearDropdowns() {
 
 	// Populate month dropdown
 	const months = [
-		"January",
-		"February",
 		"March",
 		"April",
 		"May",
@@ -337,7 +330,6 @@ function populateMonthYearDropdowns() {
 		"September",
 		"October",
 		"November",
-		"December",
 	];
 	monthDropdown.innerHTML = months
 		.map((month) => `<option value="${month}">${month}</option>`)
@@ -353,18 +345,18 @@ function populateMonthYearDropdowns() {
 document.querySelector(".close-btn").addEventListener("click", closePopup);
 
 // Function to handle the 'Weekly' selection
-function handleWeeklySelection() {
-	// Show the popup when 'Weekly' is selected
-	showPopup();
-}
+// function handleWeeklySelection() {
+// 	// Show the popup when 'Weekly' is selected
+// 	showPopup();
+// }
 
 // Add event listener to your existing timeframe dropdown
 
-timeframeDropdown.addEventListener("change", function () {
-	if (this.value === "Weekly") {
-		handleWeeklySelection();
-	}
-});
+// timeframeDropdown.addEventListener("change", function () {
+// 	if (this.value === "Weekly") {
+// 		handleWeeklySelection();
+// 	}
+// });
 
 // Function to store the selected values in variables
 function storeSelections() {
@@ -459,25 +451,35 @@ function plotSelectedGraph(lists, index, listStr) {
 		return;
 	}
 
+	const dataValues = filteredData.map(data => {
+        // Assuming 'data' has a 'value' field
+        return data.value;
+    });
+
+	const plotStrList = filteredData.map(data => {
+        // Assuming 'data' has a 'time' field
+        return data.time;
+    });
+
 	// Adjust listStr based on selectedWeek and selectedMonth
-	if (curTimeSpan === "Weekly") {
-		// Convert month name to month number
-		const monthNumber =
-			new Date(Date.parse(selectedMonth + " 1, 2022")).getMonth() + 1;
-		const daysInMonth = getDaysInMonth(monthNumber, selectedYear);
+	// if (curTimeSpan === "Weekly") {
+	// 	// Convert month name to month number
+	// 	const monthNumber =
+	// 		new Date(Date.parse(selectedMonth + " 1, 2022")).getMonth() + 1;
+	// 	const daysInMonth = getDaysInMonth(monthNumber, selectedYear);
 
-		let startDay = selectedWeek * 7 + 1;
-		let endDay = startDay + 6;
-		if (selectedWeek === 3) {
-			// If it's the last week selection
-			endDay = daysInMonth;
-		}
+	// 	let startDay = selectedWeek * 7 + 1;
+	// 	let endDay = startDay + 6;
+	// 	if (selectedWeek === 3) {
+	// 		// If it's the last week selection
+	// 		endDay = daysInMonth;
+	// 	}
 
-		listStr = [];
-		for (let day = startDay; day <= endDay; day++) {
-			listStr.push("Day " + day);
-		}
-	}
+	// 	listStr = [];
+	// 	for (let day = startDay; day <= endDay; day++) {
+	// 		listStr.push("Day " + day);
+	// 	}
+	// }
 
 	plotGraphWithAverage(selectedList, listStr, processDropdownMenus());
 }
@@ -578,12 +580,12 @@ function plotGraphWithAverage(dataset, plotStrList, labelStr) {
 
 function setUpHomeBtn() {
 	homeBtn.addEventListener("click", () => {
-		if(isUserLoggedIn()){
-		console.log("is logged in.");
-		document.location.href = "/menu.html";
-		}else{
-		console.log("is not logged in.");
-		document.location.href = "/home.html";
+		if (isUserLoggedIn()) {
+			console.log("is logged in.");
+			document.location.href = "/menu.html";
+		} else {
+			console.log("is not logged in.");
+			document.location.href = "/home.html";
 		}
 	});
 }
@@ -653,14 +655,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 				case "datesMenu":
 					// you might want to populate myList appropriately
-					myList = ["Weekly", "Monthly", "Yearly", "Select Range"];
+					myList = ["Monthly", "Yearly", "Select Range"];
 					updateSelectionsContainer(myList, menu, "Time: ", 2);
 					break;
 
 				case "valuesMenu":
 					// you might want to populate myList appropriately
-					myList = ["Mean", "Median", "Max", "Min"];
-					updateSelectionsContainer(myList, menu, "Value: ", 3);
+					myList = ["Annual Running Average"];
+					updateSelectionsContainer(myList, menu, "", 3);
 					break;
 
 				default:
