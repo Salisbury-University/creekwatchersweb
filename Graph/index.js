@@ -257,12 +257,12 @@ confirmBtn.addEventListener("click", () => {
 	if (curTimeSpan === "Monthly") {
 		selectedWeek = null; // Reset week if not in weekly mode
 		selectedMonth = document.getElementById("monthDropdown").value;
-		selectedYear = document.getElementById("yearDropdown").value;
+		selectedYear = parseInt(document.getElementById("yearDropdown").value, 10);
 	} else {
 		// Yearly or other modes
 		selectedWeek = null;
 		selectedMonth = null;
-		selectedYear = document.getElementById("yearDropdown").value;
+		selectedYear = parseInt(document.getElementById("yearDropdown").value, 10);
 	}
 
 	// Update listStr based on selectedWeek and selectedMonth
@@ -397,39 +397,77 @@ function cumulativeMovingAverage(array) {
 		return sum / (index + 1);
 	});
 }
+// Function to parse date strings into a Date object
+function parseDate(dateStr) {
+	let parts;
+	if (dateStr.includes("/")) {
+		// Format: "month/day/year"
+		parts = dateStr.split("/");
+		return new Date(
+			parseInt(parts[2], 10) + 2000,
+			parseInt(parts[0], 10) - 1,
+			parseInt(parts[1], 10)
+		);
+	} else {
+		// Format: "year-month-day"
+		parts = dateStr.split("-");
+		return new Date(parts[0], parts[1] - 1, parts[2]);
+	}
+}
 
 function plotSelectedGraph(lists, index, listStr) {
-	console.log("in plot: " + lists);
-
 	const dbFieldName = getDatabaseFieldName(selectedMeasurement);
 	if (!dbFieldName) {
 		console.error("Invalid measurement selected:", selectedMeasurement);
 		return;
 	}
 
-	console.log(dbFieldName);
+	// Filter data by selected site, valid values, and selected year
+	// Filter data by selected site, valid values, and selected year
+	const yearlyFilteredData = lists.filter((data) => {
+		if (
+			data.userSite &&
+			data.userSite.toLowerCase() === selectedSite.toLowerCase() &&
+			data[dbFieldName] !== null &&
+			data[dbFieldName] !== undefined &&
+			data[dbFieldName] !== ""
+		) {
+			const parsedDate = parseDate(data.date);
+			return parsedDate.getFullYear() === selectedYear;
+		}
+		return false;
+	});
 
-	// Filter the data to get a list of values for the selected measurement
-	// Filter the data based on the selected site and measurement
-	const filteredValList = lists
-		.filter(
-			(data) =>
-				data.userSite &&
-				data.userSite.toLowerCase() === selectedSite.toLowerCase()
-		) // Filter by site name
-		.map((data) => data[dbFieldName]) // Extract values for the selected measurement
-		.filter((val) => val !== null && val !== undefined && val !== ""); // Further filter out invalid values
+	console.log(yearlyFilteredData);
 
-	if (filteredValList.length === 0) {
+	if (yearlyFilteredData.length === 0) {
 		console.error(
 			"No data available for the selected measurement:",
 			selectedMeasurement
 		);
 		return;
 	}
-	//This list contains all filtered values by measurement type
-	console.log(filteredValList);
-	plotGraphWithAverage(filteredValList, listStr, processDropdownMenus());
+
+	// Initialize arrays for each month (March to November)
+	let monthlyData = Array.from({ length: 9 }, () => []);
+
+	// Populate the monthlyData arrays
+	yearlyFilteredData.forEach((data) => {
+		let month = parseDate(data.date).getMonth();
+		if (month >= 2 && month <= 10) {
+			// 2 is March, 10 is November
+			monthlyData[month - 2].push(data[dbFieldName]);
+		}
+	});
+
+	// Calculate average for each month and store in a new array
+	let monthlyAverages = monthlyData.map((month) => {
+		if (month.length === 0) return 0;
+		return month.reduce((sum, val) => sum + val, 0) / month.length;
+	});
+	console.log("monthlyAvg: " + monthlyAverages);
+	// Pass the sorted monthly averages to the graph plotting function
+	plotGraphWithAverage(monthlyAverages, listStr, processDropdownMenus());
 }
 
 function getDaysInMonth(month, year) {
