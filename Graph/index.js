@@ -635,7 +635,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 				case "datesMenu":
 					// you might want to populate myList appropriately
-					myList = ["Yearly", "Select Range"];
+					myList = ["Yearly"];
 					updateSelectionsContainer(myList, menu, "Time: ", 2);
 					break;
 
