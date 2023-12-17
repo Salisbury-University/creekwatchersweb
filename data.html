@@ -9,30 +9,33 @@
 	</head>
 	<body>
 		<div class="topBar">
-			<div id="searchContainer">
-				<input type="text" id="searchInput" placeholder="Search...">
-				<select id="searchField">
-					<option value="userName">Name</option>
-						<option value="date">Date</option>
-						<option value="userSite">Site</option>
-						<option value="tideEst">Tide</option>
-						<option value="weatherEst">Weather</option>
-						<option value="waterSurf">Water Surface</option>
-						<option value="windSpeed">Wind Speed</option>
-						<option value="windDir">Wind Direction</option>
-						<option value="rainfall">Rainfall</option>
-						<option value="waterDepth">Water Depth</option>
-						<option value="sampleDist">Sample Distance</option>
-						<option value="airTempAvg">Air Temperature</option>
-						<option value="waterTempAvg">Water Temperature</option>
-						<option value="secchiDepthAvg">Secchi Depth </option>
-						<option value="bottomedOut">Bottomed Out</option>
-						<option value="usedTube">Tube Used</option>
-						<option value="pbottle">Plastic Bottle</option>
-						<option value="glassbottle">Glass Bottle</option>
-				</select>
-				<button id="searchButton"><i class="fa fa-search"></i></button>
-			</div>
+			<form id="searchForm">
+				<div id="searchContainer">
+					<select id="searchField">
+						<option value="userName">Name</option>
+							<option value="date">Date</option>
+							<option value="userSite">Site</option>
+							<option value="tideEst">Tide</option>
+							<option value="weatherEst">Weather</option>
+							<option value="waterSurf">Water Surface</option>
+							<option value="windSpeed">Wind Speed</option>
+							<option value="windDir">Wind Direction</option>
+							<option value="rainfall">Rainfall</option>
+							<option value="waterDepth">Water Depth</option>
+							<option value="sampleDist">Sample Distance</option>
+							<option value="airTempAvg">Air Temperature</option>
+							<option value="waterTempAvg">Water Temperature</option>
+							<option value="secchiDepthAvg">Secchi Depth </option>
+							<option value="bottomedOut">Bottomed Out</option>
+							<option value="usedTube">Tube Used</option>
+							<option value="pbottle">Plastic Bottle</option>
+							<option value="glassbottle">Glass Bottle</option>
+					</select>
+					<input type="text" id="searchInput" placeholder="Search...">
+					<button id="searchButton"><i class="fa fa-search"></i></button>
+				</div>
+			</form>
+			<button id="exportButton">Export</button>
 			<div class="sortOptions">
 				<select id="primarySort">
 					<option value="">Select Primary Sort</option>
@@ -80,11 +83,11 @@
 			</div>
 		</div>
 		<div class="homeBtn" id="homebtn"></div>
-		
-
 		<div class="mainContainer" id="datamaincontainer">
 			<div id="headerContainer"></div>
-			<div id="dataRowsContainer"></div>
+			<div id="dataRowsContainer">
+				<input type="checkbox" class="row-checkbox">
+			</div>
 		</div>
 		
 		<script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
