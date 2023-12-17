@@ -113,7 +113,7 @@ transform: scale(1.2);
 .sortOptions {
     display: flex;
     justify-content: center;
-    margin: 20px 750px;
+    margin: 20px;
 }
 
 /* Dropdown Styles */
@@ -159,4 +159,66 @@ transform: scale(1.2);
     .sortOptions select {
         margin-bottom: 10px;
     }
+}
+
+#searchContainer {
+    display: flex;
+    justify-content: center;
+    margin: 20px 100px;
+    position: relative;
+}
+
+#searchInput {
+    padding-right: 40px; /* Make room for the search button */
+    height: 40px;
+    border: 2px solid #1E90FF; /* Example: Using DodgerBlue */
+    border-radius: 5px 0 0 5px; /* Rounded corners on the left side */
+    font-size: 16px;
+}
+
+#searchField{
+    padding-right: 40px; /* Make room for the search button */
+    height: 40px;
+    border: 2px solid #1E90FF; /* Example: Using DodgerBlue */
+    border-radius: 5px 0 0 5px; /* Rounded corners on the left side */
+    font-size: 16px;
+}
+
+#searchButton {
+    position: absolute;
+    right: 0;
+    top: 0;
+    border: 2px solid #1E90FF;
+    border-left: none; /* Remove left border to blend with input */
+    background-image: url("assets/imgs/search.png");
+    cursor: pointer;
+    height: 44px; /* Match the height of the search input including border */
+    width: 40px;
+    border-radius: 0 5px 5px 0; /* Rounded corners on the right side */
+}
+
+#searchButton .fa-search {
+    color: #000;
+    font-size: 20px;
+}
+
+/* Adjust search field and button size similar to sort options */
+#searchInput,#searchField, #searchButton {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 2px 10px;
+}
+
+/* Dropdown Styles */
+#searchField select {
+    padding: 8px 15px;
+    margin: 2px 10px;
+    border: 2px solid #1E90FF; /* Example: Using DodgerBlue from your neonColors */
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    height: 40px;
 }
