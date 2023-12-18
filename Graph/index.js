@@ -357,10 +357,10 @@ function processDropdownMenus() {
 
 			// If the text contains a space, split the string and keep everything after the first space
 			if (text.includes(" ")) {
-				text = text.split(" ").slice(1).join(" ");
+				//text = text.split(" ").slice(1).join(" ");
 			}
 			if (id == "rainFallMenu") {
-				text = text + ": ";
+				text = text + " ";
 			}
 			if (id == "datesMenu") {
 				text = "";
@@ -380,7 +380,7 @@ function processDropdownMenus() {
 	}
 
 	// Join the processed strings with a space and return the resulting string
-	return resultArray.join(" ");
+	return resultArray.join(" | ");
 }
 function getCurrentDate() {
 	const currentDate = new Date(); // Get current date object
@@ -521,14 +521,14 @@ function plotGraphWithAverage(dataset, plotStrList, labelStr) {
 			labels: plotStrList, // Use plotStrList for the x-axis labels
 			datasets: [
 				{
-					label: "Original Data",
+					label: "Monthly Average",
 					data: dataset,
 					borderColor: "rgb(75, 192, 192)",
 					tension: 0.1,
 					fill: false,
 				},
 				{
-					label: "Average Curve",
+					label: "Yearly Average",
 					data: averageCurve,
 					borderColor: "rgb(255, 99, 132)",
 					tension: 0.5,
@@ -658,7 +658,7 @@ document.addEventListener("DOMContentLoaded", () => {
 						"WIKA",
 						"YACL",
 					];
-					updateSelectionsContainer(myList, menu, "Site: ", 1);
+					updateSelectionsContainer(myList, menu, "Site -> ", 1);
 					break;
 
 				case "datesMenu":
