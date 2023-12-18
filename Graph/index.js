@@ -416,6 +416,8 @@ function parseDate(dateStr) {
 }
 
 function plotSelectedGraph(lists, index, listStr) {
+	const container = document.getElementById("innergraph");
+	container.innerHTML = "";
 	const dbFieldName = getDatabaseFieldName(selectedMeasurement);
 	if (!dbFieldName) {
 		console.error("Invalid measurement selected:", selectedMeasurement);
@@ -478,14 +480,26 @@ function plotGraphWithAverage(dataset, plotStrList, labelStr) {
 	// Get the container and create a canvas element
 	const container = document.getElementById("innergraph");
 	const canvas = document.createElement("canvas");
-	container.innerHTML = ""; // Clear any existing children
 	container.appendChild(canvas);
 	// Get the 2D context of the canvas
 	const ctx = canvas.getContext("2d");
 
 	// Calculate cumulative moving average curve
 	const averageCurve = cumulativeMovingAverage(dataset);
-
+	let unitStr;
+	const measurementMapping = {
+		"Water Depth": "waterDepth",
+		"Sample Distance": "sampleDist",
+		"Air Temperature": "airTempAvg",
+		"Water Temperature": "waterTempAvg",
+		"Secchi Depth": "secchiAvg",
+	};
+	switch(selectedMeasurement)
+	{
+		case "Water Depth":
+			break;
+		case 
+	}
 	// Create chart
 	new Chart(ctx, {
 		type: "line",
