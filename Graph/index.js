@@ -401,15 +401,16 @@ function cumulativeMovingAverage(array) {
 function parseDate(dateStr) {
 	let parts;
 	if (dateStr.includes("/")) {
+		console.log("/ format: " + dateStr);
 		// Format: "month/day/year"
 		parts = dateStr.split("/");
-		return new Date(
-			parseInt(parts[2], 10) + 2000,
-			parseInt(parts[0], 10) - 1,
-			parseInt(parts[1], 10)
-		);
+		let year = parseInt(parts[2], 10);
+		// Check if the year is in two-digit format, adjust if necessary
+		if (year < 100) year += 2000;
+		return new Date(year, parseInt(parts[0], 10) - 1, parseInt(parts[1], 10));
 	} else {
 		// Format: "year-month-day"
+		console.log("- format: " + dateStr);
 		parts = dateStr.split("-");
 		return new Date(parts[0], parts[1] - 1, parts[2]);
 	}
@@ -423,8 +424,6 @@ function plotSelectedGraph(lists, index, listStr) {
 		console.error("Invalid measurement selected:", selectedMeasurement);
 		return;
 	}
-
-	// Filter data by selected site, valid values, and selected year
 	// Filter data by selected site, valid values, and selected year
 	const yearlyFilteredData = lists.filter((data) => {
 		if (
@@ -434,6 +433,7 @@ function plotSelectedGraph(lists, index, listStr) {
 			data[dbFieldName] !== undefined &&
 			data[dbFieldName] !== ""
 		) {
+			console.log("datadate " + data.date);
 			const parsedDate = parseDate(data.date);
 			return parsedDate.getFullYear() === selectedYear;
 		}
@@ -494,11 +494,22 @@ function plotGraphWithAverage(dataset, plotStrList, labelStr) {
 		"Water Temperature": "waterTempAvg",
 		"Secchi Depth": "secchiAvg",
 	};
-	switch(selectedMeasurement)
-	{
+	switch (selectedMeasurement) {
 		case "Water Depth":
+			unitStr = "cm";
 			break;
-		case 
+		case "Sample Distance":
+			unitStr = "cm";
+			break;
+		case "Air Temperature":
+			unitStr = "Degrees Celsius";
+			break;
+		case "Water Temperature":
+			unitStr = "Degrees Celsius";
+			break;
+		case "Secchi Depth":
+			unitStr = "cm";
+			break;
 	}
 	// Create chart
 	new Chart(ctx, {
@@ -566,7 +577,7 @@ function plotGraphWithAverage(dataset, plotStrList, labelStr) {
 					},
 					title: {
 						display: true,
-						text: "-Unit-",
+						text: unitStr,
 						font: {
 							size: 16,
 						},
