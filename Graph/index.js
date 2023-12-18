@@ -416,9 +416,11 @@ function parseDate(dateStr) {
 	}
 }
 
+//code review start
 function plotSelectedGraph(lists, index, listStr) {
 	const container = document.getElementById("innergraph");
 	container.innerHTML = "";
+	//get the selected measurement type
 	const dbFieldName = getDatabaseFieldName(selectedMeasurement);
 	if (!dbFieldName) {
 		console.error("Invalid measurement selected:", selectedMeasurement);
@@ -433,14 +435,14 @@ function plotSelectedGraph(lists, index, listStr) {
 			data[dbFieldName] !== undefined &&
 			data[dbFieldName] !== ""
 		) {
-			console.log("datadate " + data.date);
+			//console.log("datadate " + data.date);
 			const parsedDate = parseDate(data.date);
 			return parsedDate.getFullYear() === selectedYear;
 		}
 		return false;
 	});
 
-	console.log(yearlyFilteredData);
+	//console.log(yearlyFilteredData);
 
 	if (yearlyFilteredData.length === 0) {
 		console.error(
@@ -453,7 +455,7 @@ function plotSelectedGraph(lists, index, listStr) {
 	// Initialize arrays for each month (March to November)
 	let monthlyData = Array.from({ length: 9 }, () => []);
 
-	// Populate the monthlyData arrays
+	// Populate the monthlyData arrays by seperating values based upon month
 	yearlyFilteredData.forEach((data) => {
 		let month = parseDate(data.date).getMonth();
 		if (month >= 2 && month <= 10) {
@@ -467,7 +469,7 @@ function plotSelectedGraph(lists, index, listStr) {
 		if (month.length === 0) return 0;
 		return month.reduce((sum, val) => sum + val, 0) / month.length;
 	});
-	console.log("monthlyAvg: " + monthlyAverages);
+
 	// Pass the sorted monthly averages to the graph plotting function
 	plotGraphWithAverage(monthlyAverages, listStr, processDropdownMenus());
 }
@@ -476,6 +478,7 @@ function getDaysInMonth(month, year) {
 	return new Date(year, month, 0).getDate();
 }
 
+//code review part 2
 function plotGraphWithAverage(dataset, plotStrList, labelStr) {
 	// Get the container and create a canvas element
 	const container = document.getElementById("innergraph");
@@ -484,9 +487,9 @@ function plotGraphWithAverage(dataset, plotStrList, labelStr) {
 	// Get the 2D context of the canvas
 	const ctx = canvas.getContext("2d");
 
-	// Calculate cumulative moving average curve
+	// Calculate the average curve
 	const averageCurve = cumulativeMovingAverage(dataset);
-	let unitStr;
+	let unitStr; //var to hold the unit for measurement (cm or deg celsius)
 	const measurementMapping = {
 		"Water Depth": "waterDepth",
 		"Sample Distance": "sampleDist",
@@ -511,7 +514,7 @@ function plotGraphWithAverage(dataset, plotStrList, labelStr) {
 			unitStr = "cm";
 			break;
 	}
-	// Create chart
+	// Create chart --> Graphs the averages for each month over the year
 	new Chart(ctx, {
 		type: "line",
 		data: {
@@ -560,7 +563,7 @@ function plotGraphWithAverage(dataset, plotStrList, labelStr) {
 					},
 					title: {
 						display: true,
-						text: "Month",
+						text: "Month	",
 						font: {
 							size: 16,
 						},
