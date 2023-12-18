@@ -560,7 +560,7 @@ function plotGraphWithAverage(dataset, plotStrList, labelStr) {
 					},
 					title: {
 						display: true,
-						text: "-Time Frame-",
+						text: "Month",
 						font: {
 							size: 16,
 						},
