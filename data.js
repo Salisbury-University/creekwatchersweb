@@ -152,7 +152,7 @@ document.getElementById('exportButton').addEventListener('click', function() {
         });
         selectedRows.push(rowData);
     });
-    exportToXML(selectedRows);
+    exportToCSV(selectedRows);
 });
 
 //Functions
@@ -360,25 +360,29 @@ function performSearch(searchInput, searchField) {
     createDataRow(filteredData);
 }
 
-function exportToXML(data) {
-    let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<data>\n';
-    data.forEach(row => {
-        xml += '  <row>\n';
-        for (let key in row) {
-            xml += `    <${key}>${row[key]}</${key}>\n`;
-        }
-        xml += '  </row>\n';
-    });
-    xml += '</data>';
+function exportToCSV(data) {
+    let csvContent = 'data:text/csv;charset=utf-8,';
 
-    // Create a blob and trigger a download
-    let blob = new Blob([xml], { type: 'text/xml' });
-    let url = URL.createObjectURL(blob);
-    let a = document.createElement('a');
-    a.href = url;
-    a.download = 'export.xml';
-    document.body.appendChild(a);
-    a.click();
-    window.URL.revokeObjectURL(url);
-    a.remove();
+    // Adding the header
+    let headers = Object.keys(data[0]).join(',');
+    csvContent += headers + '\r\n';
+
+    // Adding the data rows
+    data.forEach(row => {
+        let rowContent = Object.keys(row).map(key => row[key]).join(',');
+        csvContent += rowContent + '\r\n';
+    });
+
+    // Encoding URI
+    var encodedUri = encodeURI(csvContent);
+
+    // Creating a temporary link to trigger the download
+    let link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', 'CreekwatcherData.csv');
+    document.body.appendChild(link);
+
+    // Triggering the download and removing the link
+    link.click();
+    document.body.removeChild(link);
 }
