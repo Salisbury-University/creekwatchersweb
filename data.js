@@ -132,6 +132,29 @@ document.getElementById('primarySort').addEventListener('change', function(){
 	}
 });
 
+document.getElementById('searchForm').addEventListener('submit', function(event){
+    event.preventDefault();
+    
+	let searchInput = document.getElementById('searchInput').value;
+    let searchField = document.getElementById('searchField').value;
+
+    performSearch(searchInput, searchField);
+});
+
+document.getElementById('exportButton').addEventListener('click', function() {
+    let selectedRows = [];
+    document.querySelectorAll('.row-checkbox:checked').forEach(checkbox => {
+        let row = checkbox.closest('.row');
+        // Extract row data
+        let rowData = {};
+        row.querySelectorAll('.block').forEach((block, index) => {
+            rowData[`column${index}`] = block.innerText; // Adjust based on your data structure
+        });
+        selectedRows.push(rowData);
+    });
+    exportToXML(selectedRows);
+});
+
 //Functions
 
 // Function to get data from firebase and stores it in an array
@@ -253,16 +276,30 @@ function createDataRow(dataArray) {
             data.comments
         ];
 
-        for (let i = 0; i < dataFields.length; i++) {
+		dataFields.forEach((field, index) => {
             const block = document.createElement("div");
             block.classList.add("block");
-            block.innerText = dataFields[i];
-            newRow.appendChild(block);
-        }
 
-        // Append the new data row to the main container
-        const mainContainer = document.getElementById("dataRowsContainer");
-        mainContainer.appendChild(newRow);
+            if (index === 0) { // Assuming the first field is the name
+                // Create and append the checkbox to the name field
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.className = 'row-checkbox';
+                block.appendChild(checkbox);
+                // Append the text for the name field
+                const textNode = document.createTextNode(field);
+                block.appendChild(textNode);
+				block.classList.add("name-field");
+            } else {
+                block.innerText = field;
+            }
+
+            newRow.appendChild(block);
+        });
+
+        // Append the new row to the container
+        const dataRowsContainer = document.getElementById("dataRowsContainer");
+        dataRowsContainer.appendChild(newRow);
 	});
 }
 
@@ -310,4 +347,38 @@ function setRandomBackColor(element) {
 	const randomColor =
 		galaxyColors[Math.floor(Math.random() * neonColors.length)];
 	element.style.backgroundColor = randomColor;
+}
+
+function performSearch(searchInput, searchField) {
+    // Filter userData based on searchField and searchInput
+    let filteredData = userData.filter((item) => {
+        let fieldValue = item[searchField].toString().toLowerCase();
+        return fieldValue.includes(searchInput.toLowerCase());
+    });
+
+    // Update the UI with the filtered data
+    createDataRow(filteredData);
+}
+
+function exportToXML(data) {
+    let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<data>\n';
+    data.forEach(row => {
+        xml += '  <row>\n';
+        for (let key in row) {
+            xml += `    <${key}>${row[key]}</${key}>\n`;
+        }
+        xml += '  </row>\n';
+    });
+    xml += '</data>';
+
+    // Create a blob and trigger a download
+    let blob = new Blob([xml], { type: 'text/xml' });
+    let url = URL.createObjectURL(blob);
+    let a = document.createElement('a');
+    a.href = url;
+    a.download = 'export.xml';
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
 }
